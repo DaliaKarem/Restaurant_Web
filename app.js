@@ -27,12 +27,23 @@ app.post('/Home',async (req, res) => {
     if(email==='Dalia' && password==='222')
 {
     return res.sendFile(path.join(__dirname, 'public', 'HomePage', 'HomePage.html'));
+    //return res.sendFile(path.join(__dirname, 'public', 'HomePage','AddProduct', 'AddProduct.html'));
 
 } else {
         // Handle authentication failure
         res.status(401).send('Authentication failed');
     }
 });
+
+app.get('/Home', function(req, res) {
+   // return res.sendFile(path.join(__dirname, 'public', 'HomePage','HomePage.html'));
+   return res.sendFile(path.join(__dirname, 'public', 'HomePage', 'HomePage.html'));
+
+})
+app.get('/AddProduct', function(req, res) {
+    return res.sendFile(path.join(__dirname, 'public', 'HomePage','AddProduct', 'AddProduct.html'));
+
+})
 app.use('*',(req,res,next)=>{
     res.status(404);
     res.send('<h1>404 Not Found</h1>');

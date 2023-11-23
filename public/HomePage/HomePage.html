@@ -6,37 +6,40 @@
 <link rel="stylesheet" href="../Shared/Shared.css">
 </head>
 <body>
-  <nav class="nav">
-    <div class="logo">
-      <span class="stylish">Grand</span>
-      <span class="logoRes">Resturant</span>
-    </div>
-    
-    <div class="navigation">
-      <div class="dropdown">
-        <span>Name</span>
-        <div class="dropdown-content">
-        <ul>
-          <li>
-            <a href="Settings.html">Settings</a>
-          </li>
-          <li>
-            <a href="Settings.html">Logout</a>
-          </li>
-        </ul>
+  <div id="HomePage">
+    <nav class="nav">
+      <div class="logo">
+        <span class="stylish">Grand</span>
+        <span class="logoRes">Resturant</span>
+      </div>
+      
+      <div class="navigation">
+        <div class="dropdown">
+          <span>Name</span>
+          <div class="dropdown-content">
+          <ul>
+            <li>
+              <a href="Settings.html">Settings</a>
+            </li>
+            <li>
+              <a href="Settings.html">Logout</a>
+            </li>
+          </ul>
+          </div>
         </div>
       </div>
+    </nav>
+    <div class="drawer">
+      <a  class="active" href="/Home" >My Products</a>
+      <a href="/AddProduct">Add Product</a>
+      <a href="/HomePage/EditProduct/EditProduct.html">Edit Product</a>
+      <a href="/HomePage/ManageUsers/ManageUsers.html">Manage users</a>
     </div>
-  </nav>
-  <div class="drawer">
-      <a class="active" href="#" >My Products</a>
-      <a href="#">Add Product</a>
-      <a href="#">Edit Product</a>
-      <a href="#">Manage users</a>
+  
+    <div id="productList" class="products-container" ></div>
+  
   </div>
-
-  <div id="productList" class="products-container" ></div>
-
+ 
   <script src="./HomePage/Product.js"></script>
 </body>
 </html>
