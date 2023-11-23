@@ -34,14 +34,14 @@ const products = [
 
 function createProductHTML(product) {
     return `
-        <div class="containerr" onclick="productDetails(${product.id})">
-            <div class="product-detailss">
-                <div class="product-imagee">
+        <div class="contain" onclick="productDetails(${product.id})">
+            <div class="product-det">
+                <div class="product-imag">
                     <img src="${product.image}" alt="${product.id}">
                 </div>
-                <div class="product-titlee">${product.title}</div>
-                <div class="product-descriptionn">${product.description}</div>
-                <div class="product-pricee">${product.price}</div>
+                <div class="product-titl">${product.title}</div>
+                <div class="product-desc">${product.description}</div>
+                <div class="product-pri">${product.price}</div>
             </div>
         </div>
     `;
