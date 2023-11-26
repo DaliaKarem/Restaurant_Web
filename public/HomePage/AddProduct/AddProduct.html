@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Product</title>
+<link rel="stylesheet" href="./AddProduct/AddProduct.css">
+<link rel="stylesheet" href="../../Shared/Shared.css">
+</head>
+<body>
+    <nav class="nav">
+        <div class="logo">
+          <span class="stylish">Grand</span>
+          <span class="logoRes">Resturant</span>
+        </div>
+        
+        <div class="navigation">
+          <div class="dropdown">
+            <span>Name</span>
+            <div class="dropdown-content">
+            <ul>
+              <li>
+                <a href="Settings.html">Settings</a>
+              </li>
+              <li>
+                <a href="Settings.html">Logout</a>
+              </li>
+            </ul>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div class="drawer">
+        <a href="/Home">My Products</a>
+        <a class="active" href="/AddProduct">Add Product</a>
+        <a href="#">Edit Product</a>
+        <a href="#">Manage users</a>
+      </div>
+      <div class="container">
+            <div class="detailsinfo">
+              <h1>Add Product</h1>
+              <label for="img">Select image:</label>
+                <input type="file" id="img" name="img" accept="image/*">
+              <div class="product-title"><input size="60%" placeholder="Product" ></div>
+            <div class="product-description"><input size="60%" placeholder="ProductLorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci rerum doloremque magni sunt nobis natus sed, ut reiciendis ullam ipsum laboriosam in, exercitationem nesciunt enim vitae ipsa soluta, aliquam tenetur">.</div>
+            <div class="product-price"><input size="60%" placeholder="120" ></div>            
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Home</title>
+<link rel="stylesheet" href="./HomePage/HomePage.css">
+<link rel="stylesheet" href="../Shared/Shared.css">
+</head>
+<body>
+  <div id="HomePage">
+    <nav class="nav">
+      <div class="logo">
+        <span class="stylish">Grand</span>
+        <span class="logoRes">Resturant</span>
+      </div>
+      
+      <div class="navigation">
+        <div class="dropdown">
+          <span>Name</span>
+          <div class="dropdown-content">
+          <ul>
+            <li>
+              <a href="Settings.html">Settings</a>
+            </li>
+            <li>
+              <a href="Settings.html">Logout</a>
+            </li>
+          </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="drawer">
+      <a  class="active" href="/Home" >My Products</a>
+      <a href="/AddProduct">Add Product</a>
+      <a href="/HomePage/EditProduct/EditProduct.html">Edit Product</a>
+      <a href="/HomePage/ManageUsers/ManageUsers.html">Manage users</a>
+    </div>
+    <div class="search">
+      <input type="text" class="search-input" placeholder="Search">
+      <button><img src="https://png.pngtree.com/png-vector/20190115/ourmid/pngtree-vector-search-icon-png-image_320926.jpg" alt=""></button>
+
+    </div>
+    <!--<div id ="CategoryList" class="Category Constainer"></div>
+    -->
+    <div class="categories">
+      <ul id="categoryList">
+      </ul>
+  </div>
+    <div id="productList" class="products-container" ></div>
+  
+  </div>
+ 
+  <script src="./HomePage/Product.js"></script>
+</body>
+</html>
