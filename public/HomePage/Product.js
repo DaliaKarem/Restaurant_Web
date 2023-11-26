@@ -31,6 +31,20 @@ const products = [
     },
     
 ];
+document.addEventListener('DOMContentLoaded', function () {
+    // Sample categories (you can fetch these dynamically from your backend)
+    const categories = ['All Product','Category 2','Category 2', 'Category 2', 'Category 3', 'Category 4'];
+
+    // Get the category list container
+    const categoryList = document.getElementById('categoryList');
+
+    // Add each category to the list
+    categories.forEach(category => {
+        const listItem = document.createElement('li');
+        listItem.textContent = category;
+        categoryList.appendChild(listItem);
+    });
+});
 
 function createProductHTML(product) {
     return `

@@ -8,6 +8,10 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   min-width: 150px;
 }
+.product-row {
+  display: flex;
+  flex-wrap: wrap;
+}
 
 .product-det {
   display: flex;
@@ -64,4 +68,32 @@
 .search button img {
   max-width: 15%;
   height: auto;
+}
+.categories {
+  max-width: 100%;
+  margin-left: 30%;
+  text-align: center;
+  overflow-x: auto; /* Enable horizontal scrolling */
+  white-space: nowrap; /* Prevent line breaks */
+  scroll-behavior: smooth;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  white-space: nowrap; /* Prevent line breaks */
+}
+
+li {
+  display: inline-block; /* Display list items in a row */
+  background-color: #f0f0f0;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* Optional: Hover effect */
+li:hover {
+  background-color: #ddd;
+  cursor: pointer;
 }

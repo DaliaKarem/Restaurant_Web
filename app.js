@@ -8,12 +8,17 @@ const app=express();
 const path = require('path');
 const DB=require('./config/DB')
 
+
+const CategoryRoute=require('./Routes/CategoryRoute');
+
 //connect DataBase
 DB();
 //Middleware
 app.use(bodyParser.urlencoded({ extended: true })); // Add this line
 app.use(express.json())
 app.use(morgan('dev'))
+//Routes
+app.use("/api/v1/categories",CategoryRoute)
 
 app.use(express.static(path.join(__dirname,'public')));
 app.get('/',(req,res)=>{
