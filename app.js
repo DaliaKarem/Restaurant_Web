@@ -10,7 +10,8 @@ const DB=require('./config/DB')
 
 
 const CategoryRoute=require('./Routes/CategoryRoute');
-
+const ProductModel=require('./models/ProductModel');
+const CategoryModel = require('./models/CategoryModel');
 //connect DataBase
 DB();
 //Middleware
@@ -21,9 +22,20 @@ app.use(morgan('dev'))
 app.use("/api/v1/categories",CategoryRoute)
 
 app.use(express.static(path.join(__dirname,'public')));
+
+//Pages
 app.get('/',(req,res)=>{
     res.redirect('/start.html');
 })
+app.get('/Home',(req,res)=>{
+    return res.sendFile(path.join(__dirname, 'public', 'HomePage', 'HomePage.html'));
+})
+app.get('/AddProduct',(req,res)=>{
+    return res.sendFile(path.join(__dirname, 'public', 'HomePage','AddProduct', 'AddProduct.html'));
+})
+
+
+//Api
 app.post('/Home',async (req, res) => {
     console.log("here is /Home");
     // Assuming you have user authentication logic here
@@ -40,13 +52,30 @@ app.post('/Home',async (req, res) => {
     }
 });
 
-app.get('/Home', function(req, res) {
-   // return res.sendFile(path.join(__dirname, 'public', 'HomePage','HomePage.html'));
-   return res.sendFile(path.join(__dirname, 'public', 'HomePage', 'HomePage.html'));
+app.post("/AddProduct",async(req,res)=>{
+    console.log("Add product")
+    console.log(req.body)
+    let product=await ProductModel.create(req.body)
+    res.status(200).json({success:true,Products:product});
 
 })
-app.get('/AddProduct', function(req, res) {
-    return res.sendFile(path.join(__dirname, 'public', 'HomePage','AddProduct', 'AddProduct.html'));
+app.post("/getProducts",async(req,res)=>{
+        let Products=await ProductModel.find()
+        console.log("Poducts: "+Products);
+        res.status(200).json({success:true,Products:Products,msg:" Products found"});
+        //res.sendFile("pages/signup.html",{root:__dirname});
+});
+app.post("/AddCategory",async(req,res)=>{
+    console.log("Add Category")
+    console.log(req.body)
+    let category=await CategoryModel.create(req.body)
+    res.status(200).json({success:true,categorys:category});
+
+})
+app.post("/getCategory",async(req,res)=>{
+    console.log(req.body)
+    let category=await CategoryModel.find()
+    res.status(200).json({success:true,categorys:category});
 
 })
 app.use('*',(req,res,next)=>{

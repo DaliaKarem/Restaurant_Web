@@ -1,4 +1,4 @@
-const products = [
+/*const products = [
     {   id:1, 
         title: "Product 1",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
@@ -30,75 +30,92 @@ const products = [
         image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8fA%3D%3D",
     },
     
-];
-document.addEventListener('DOMContentLoaded', function () {
+];*/
+
+//function for get all categories
+
+async function postData(url = "", data = {}) {
+    // Default options are marked with *
+    const response = await fetch(url, {
+      method: "POST", 
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),  
+  });
+    let datas= await response.json(); 
+console.log("Data is");
+    console.log(datas);  // Add this line to see the response in the console
+
+    return datas;
+  }
+
+document.addEventListener('DOMContentLoaded', async () =>{
     // Sample categories (you can fetch these dynamically from your backend)
-    const categories = ['All Product','Category 2','Category 2', 'Category 2', 'Category 3', 'Category 4'];
+    
+    const CategoryResponse = await postData("/getCategory");
+    console.log("Category :"+CategoryResponse);
+    //const categories = ['All Product','Category 2','Category 2', 'Category 2', 'Category 3', 'Category 4'];
 
     // Get the category list container
     const categoryList = document.getElementById('categoryList');
 
     // Add each category to the list
-    categories.forEach(category => {
+    CategoryResponse.categorys.forEach((category,i) => {
         const listItem = document.createElement('li');
-        listItem.textContent = category;
+        listItem.textContent = category.name;
         categoryList.appendChild(listItem);
     });
 });
+//return `
 
 function createProductHTML(product) {
     return `
         <div class="contain" onclick="productDetails(${product.id})">
             <div class="product-det">
                 <div class="product-imag">
-                    <img src="${product.image}" alt="${product.id}">
+                    <img src="${product.img}" alt="${product.id}">
                 </div>
-                <div class="product-titl">${product.title}</div>
-                <div class="product-desc">${product.description}</div>
+                <div class="product-titl">${product.name}</div>
+                <div class="product-desc">${product.desc}</div>
                 <div class="product-pri">${product.price}</div>
             </div>
         </div>
     `;
+  
 }
-
-function renderProducts() {
+  async function renderProducts() {
     const productListContainer = document.getElementById("productList");
     let productsHTML = '';
     let productsInRow = 0;
 
-    products.forEach((product, index) => {
+    const productsResponse = await postData("/getProducts");
+
+    productsResponse.Products.forEach((product, index) => {
         if (productsInRow === 0) {
             productsHTML += '<div class="product-row">';
         }
-       // console.log(productsHTML);
         productsHTML += createProductHTML(product);
-
         productsInRow++;
-        //console.log(productsInRow)
-        if (productsInRow === 3 || index === products.length - 1) {
-            productsHTML += '</div>'; // Close the row after three products or at the end
+        if (productsInRow === 3 || index === productsResponse.Products.length - 1) {
+            productsHTML += '</div>';
             productsInRow = 0;
         }
     });
 
     productListContainer.innerHTML = productsHTML;
 }
+
 renderProducts();
+/*
 function productDetails(ID){
     console.log(ID);    
     const clickedProduct = products.find(product => product.id === ID);
     console.log(clickedProduct);
     // Display product details in a specific section of your HTML
     const productDetailsContainer = document.getElementById("productDetails");   
-/*
-    productDetailsContainer.innerHTML = 
-    `
-        <h2>${clickedProduct.title}</h2>
-        <p>${clickedProduct.description}</p>
-        <p>Price: ${clickedProduct.price}</p>
-        <img src="${clickedProduct.image}" alt="${clickedProduct.title}">
-    `;*/
+   
     console.log("Product Details");
     window.location.href = `../ProductDetails/productDetails.html?id=${clickedProduct.id}&title=${encodeURIComponent(clickedProduct.title)}&description=${encodeURIComponent(clickedProduct.description)}&price=${encodeURIComponent(clickedProduct.price)}&image=${encodeURIComponent(clickedProduct.image)}`;    myFunc();
  }
- productDetails();
+ productDetails();*/

@@ -6,13 +6,11 @@ const { CategoryModel } = require('../models/CategoryModel');
 //route Post /
 //  Web
 exports.addCategory = asyncHandler(async (req, res) => {
-    const name = req.body.name;
-    console.log(name);
-    const category = await CategoryModel.create({ name: name });
-    console.log("Done");
-    res.status(200).json({ data: category });
+    console.log("Add Category")
+    console.log(req.body)
+    let category=await CategoryModel.create(req.body)
+    res.status(200).json({success:true,categorys:category});
 });
-
 //  show Category
 //route  GET 
 //    Web mobile
@@ -20,3 +18,4 @@ exports.getAllCategories=asyncHandler(async(req,res)=>{
     const AllCate=await CategoryModel.find({}); 
     res.status(200).json({length:AllCate.length,data:AllCate}) 
   })
+
