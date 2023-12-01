@@ -34,15 +34,63 @@
         <a href="#">Edit Product</a>
         <a href="#">Manage users</a>
       </div>
+
+    
       <div class="container">
+        <div class="Select_Cat">
+          <button> Category</button>
+          <div class="SelectedCat">
+            <p>Hello World!</p>
+          </div>
+        </div>  
             <div class="detailsinfo">
               <h1>Add Product</h1>
               <label for="img">Select image:</label>
                 <input type="file" id="img" name="img" accept="image/*">
-              <div class="product-title"><input size="60%" placeholder="Product" ></div>
-            <div class="product-description"><input size="60%" placeholder="ProductLorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci rerum doloremque magni sunt nobis natus sed, ut reiciendis ullam ipsum laboriosam in, exercitationem nesciunt enim vitae ipsa soluta, aliquam tenetur">.</div>
-            <div class="product-price"><input size="60%" placeholder="120" ></div>            
-        </div>
-    </div>
+              <div class="product-title"><input size="60%" placeholder="Product" id="name"></div>
+            <div class="product-description"><input size="60%" id="desc" placeholder="ProductLorem ipsum dolor sit amet consectetur adipisicing elit. Adipisci rerum doloremque magni sunt nobis natus sed, ut reiciendis ullam ipsum laboriosam in, exercitationem nesciunt enim vitae ipsa soluta, aliquam tenetur">.</div>
+            <div class="product-price"><input size="60%" id="price" placeholder="120" ></div>            
+            <button id="submit"> Add </button>
+          </div>
+      </div>
+    <script>
+async function postData(url = "", data = {}) {
+  // Default options are marked with *
+  const response = await fetch(url, {
+    method: "POST", 
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),  
+});
+  let datas= await response.json(); 
+  return datas;
+}
+
+let submitButton = document.getElementById("submit");
+submitButton.addEventListener("click",async()=>{
+    console.log("Starting...");
+    let name = document.getElementById("name").value;
+    let desc = document.getElementById("desc").value;
+    let img=document.getElementById("img").value;
+    let price=document.getElementById("price").value;
+   // let email=JSON.parse(localStorage.getItem("user"))?.email;
+    console.log("Submit button clicked",name,desc);
+    let resp= await postData("/AddProduct",{name:name,desc:desc,price:price,img:img});
+    
+     if(resp.success) {
+        alert("Success Addes This Product");
+        document.getElementById("name").value="";
+        document.getElementById("desc").value="";
+        document.getElementById("price").value="";
+        document.getElementById("img").value="";
+
+        console.log("hhhhhhhhhhhhh");
+     //console.log(JSON.parse(localStorage.getItem('user')));
+        //fetchNotes();
+
+     }
+})
+    </script>
 </body>
 </html>
