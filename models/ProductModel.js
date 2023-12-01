@@ -26,9 +26,14 @@ const ProductSchema = new Schema({
     img:{
         type: String,
         required: [true, "Product img is required"],
-    }
+    },
+   // category:{
+     //   type:ObjectId,
+       // refere:'Category',
+        //required: [true, "product must belong to Category "],
+      //},
 }, { timestamps: true });
 
-const CategoryModel = mongoose.model("Product", ProductSchema);
+const ProductModel = mongoose.model("Product", ProductSchema);
 
-module.exports = CategoryModel;
+module.exports = ProductModel;

@@ -31,17 +31,39 @@
     },
     
 ];*/
-document.addEventListener('DOMContentLoaded', function () {
+
+//function for get all categories
+
+async function postData(url = "", data = {}) {
+    // Default options are marked with *
+    const response = await fetch(url, {
+      method: "POST", 
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),  
+  });
+    let datas= await response.json(); 
+console.log("Data is");
+    console.log(datas);  // Add this line to see the response in the console
+
+    return datas;
+  }
+
+document.addEventListener('DOMContentLoaded', async () =>{
     // Sample categories (you can fetch these dynamically from your backend)
-    const categories = ['All Product','Category 2','Category 2', 'Category 2', 'Category 3', 'Category 4'];
+    
+    const CategoryResponse = await postData("/getCategory");
+    console.log("Category :"+CategoryResponse);
+    //const categories = ['All Product','Category 2','Category 2', 'Category 2', 'Category 3', 'Category 4'];
 
     // Get the category list container
     const categoryList = document.getElementById('categoryList');
 
     // Add each category to the list
-    categories.forEach(category => {
+    CategoryResponse.categorys.forEach((category,i) => {
         const listItem = document.createElement('li');
-        listItem.textContent = category;
+        listItem.textContent = category.name;
         categoryList.appendChild(listItem);
     });
 });
@@ -62,25 +84,6 @@ function createProductHTML(product) {
     `;
   
 }
-
-
-
-
-async function postData(url = "", data = {}) {
-    // Default options are marked with *
-    const response = await fetch(url, {
-      method: "POST", 
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),  
-  });
-    let datas= await response.json(); 
-console.log("Data is");
-    console.log(datas);  // Add this line to see the response in the console
-
-    return datas;
-  }
   async function renderProducts() {
     const productListContainer = document.getElementById("productList");
     let productsHTML = '';
@@ -102,8 +105,6 @@ console.log("Data is");
 
     productListContainer.innerHTML = productsHTML;
 }
-
-renderProducts();
 
 renderProducts();
 /*
