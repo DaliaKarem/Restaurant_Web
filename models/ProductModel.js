@@ -5,33 +5,40 @@ const ProductSchema = new Schema({
     name: {
         type: String,
         required: [true, "ProductName is required"],
-        unique: [true, "ProductName has to be unique"],
         minlength: [3, 'Too short'],
         maxlength: [30, 'Too long']
     },
     desc:{
         type: String,
         required: [true, "ProductDesc is required"],
-        unique: [true, "ProductDesc has to be unique"],
         minlength: [3, 'Too short'],
         maxlength: [30, 'Too long']
     },
     price: {
         type: Number,
         required: [true, "Product Price is required"],
-        unique: [true, "Product Price has to be unique"],
+        minlength: [2, 'Too short'],
+        maxlength: [5, 'Too long']
+    },
+    price_Dis: {
+        type: Number,
         minlength: [3, 'Too short'],
         maxlength: [30, 'Too long']
     },
     img:{
         type: String,
-        required: [true, "Product img is required"],
+        //required: [true, "Product img is required"],
     },
-   // category:{
-     //   type:ObjectId,
-       // refere:'Category',
-        //required: [true, "product must belong to Category "],
-      //},
+   category:{
+    type: Schema.Types.ObjectId,
+    ref:'Category',
+      required: [true, "product must belong to Category "],
+       },
+      Rating:{
+        type: Number,
+        minlength: [1, 'Too short'],
+        maxlength: [5, 'Too long']
+      }
 }, { timestamps: true });
 
 const ProductModel = mongoose.model("Product", ProductSchema);
