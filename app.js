@@ -12,6 +12,8 @@ const DB=require('./config/DB')
 
 const CategoryRoute=require('./Routes/CategoryRoute');
 const ProductRoute=require('./Routes/ProductRoute');
+const UserRoute=require('./Routes/UserRoute');
+
 //connect DataBase
 DB();
 //Middleware
@@ -23,6 +25,8 @@ const uploads=multer({dest:__dirname + '/Images'});
 //Routes
 app.use("/Category",CategoryRoute)
 app.use("/Products",ProductRoute);
+app.use("/Users",UserRoute);
+
 app.use(express.static(path.join(__dirname,'public')));
 
 //Pages

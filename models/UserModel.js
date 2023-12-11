@@ -6,6 +6,7 @@ const UserSchema = new Schema({
         type: 'string',
         trim: true,
         required: [true,"name of user is required"],
+       minLength:[3,"too short"],
     },
     email:{
         type: 'string',
@@ -23,6 +24,10 @@ const UserSchema = new Schema({
         type: 'string',
         enum: ['admin','user'],
         default: 'user',
+    },
+    active:{
+        type: 'boolean',
+        default: true,
     }
 },{timestamps: true});
 const UserModel = mongoose.model("User", UserSchema);
