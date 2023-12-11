@@ -15,8 +15,20 @@ exports.validateAddUser=[
             throw new Error('Email in use: ' + val);
           }
     }),
-    check('password').notEmpty().withMessage("Pass Req").isLength({min:6}).withMessage("Too Short"),
+    check('password').notEmpty().withMessage("Pass Req").isLength({min:6}).withMessage("Too Short")
+    .custom((password ,{req})=>
+    {
+        console.log('pass confirm not equal pass ' + password + ' '+req.body.passwordConfrm);
+        if(password !== req.body.passwordConfrm)
+        {
+            throw new Error('pass confirm not equal pass ' + password + ' '+passwordConfrm); 
+        }
+        return true;
+    }
+       )   ,
+    check('passwordConfrm').notEmpty().withMessage("pass Confirm req"),
     check('phone').optional().isMobilePhone("ar-EG").withMessage("Enter correct phone"),
+    
     validatorMiddelWare,
 ]
 
