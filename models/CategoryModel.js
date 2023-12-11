@@ -7,7 +7,7 @@ const CategorySchema = new Schema({
         required: [true, "Category is required"],
         unique: [true, "Category has to be unique"],
         minlength: [3, 'Too short'],
-        maxlength: [30, 'Too long']
+        maxlength: [15, 'Too long']
     }
 }, { timestamps: true });
 

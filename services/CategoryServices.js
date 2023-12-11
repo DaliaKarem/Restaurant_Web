@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler');
 
-const { CategoryModel } = require('../models/CategoryModel');
+const CategoryModel  = require('../models/CategoryModel');
 
 //Add category
 //route Post /
@@ -16,6 +16,6 @@ exports.addCategory = asyncHandler(async (req, res) => {
 //    Web mobile
 exports.getAllCategories=asyncHandler(async(req,res)=>{
     const AllCate=await CategoryModel.find({}); 
-    res.status(200).json({length:AllCate.length,data:AllCate}) 
+    res.status(200).json({success:true,length:AllCate.length,data:AllCate}) 
   })
 

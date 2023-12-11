@@ -2,61 +2,91 @@
 <html>
 <head>
   <title>Product Details</title>
-<link rel="stylesheet" href="productDetails.css">
-<link rel="stylesheet" href="../Shared/Shared.css">
-<title>
-    Product Details
-</title>
+  <link rel="stylesheet" href="productDetails.css">
+  <link rel="stylesheet" href="../Shared/Shared.css">
 </head>
-<body>  <nav class="nav">
-  <div class="logo">
-    <span class="stylish">Grand</span>
-    <span class="logoRes">Resturant</span>
-  </div>
-  <div class="navigation">
-    <div class="dropdown">
-      <span>Name</span>
-      <div class="dropdown-content">
-      <ul>
-        <li>
-          <a href="Settings.html">Settings</a>
-        </li>
-        <li>
-          <a href="Settings.html">Logout</a>
-        </li>
-      </ul>
+<body>
+  <nav class="nav">
+    <div class="logo">
+      <span class="stylish">Grand</span>
+      <span class="logoRes">Restaurant</span>
+    </div>
+    <div class="navigation">
+      <div class="dropdown">
+        <span>Name</span>
+        <div class="dropdown-content">
+          <ul>
+            <li>
+              <a href="Settings.html">Settings</a>
+            </li>
+            <li>
+              <a href="Settings.html">Logout</a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
-</nav>
-<div class="drawer">
-    <a class="active" href="/Home" >My Products</a>
+  </nav>
+  <div class="drawer">
+    <a class="active" href="/Home">My Products</a>
     <a href="/AddProduct">Add Product</a>
-    <a href="#">Edit Product</a>
-    <a href="#">Manage users</a>
-</div>
-
-
-    <div class="container">
-      <div class="product-details">
-          <div class="product-image">
-              <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8Mnx8fGVufDB8fHx8fA%3D%3D" alt="">
-          </div>
-          <div class="detailsinfo">
-            <h1>Product Info</h1>
-            <div class="product-title">Product</div>
-          <div class="product-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem ipsum molestiae sunt? Suscipit eveniet quasi autem sit sapiente et, dolores doloribus molestiae quidem harum soluta fuga mollitia facilis perspiciatis exercitationem!.</div>
-          <div class="product-price">122</div>
-          </div>
-          
-      </div>
   </div>
-<script>
 
-</script>
-  <!--<div id="productList" class="products-container" ></div>
+  <div class="container" id="productDetailsContainer">
+    <!-- Placeholder elements for product details -->
+    <div class="image">
+      <img id="productImage" src="" alt="">
+    </div>
+    <div class="detailsinfo">
+      <h1 id="productId">Product Info</h1>
+      <div class="title" id="productName"></div>
+      <div class="desc" id="productDescription"></div>
+      <div class="price" id="productPrice"></div>
+    </div>
+  </div>
 
-  <script src="js/Product.js"></script>
-  -->
+  <script>
+    function createProductHTML(product) {
+      return `
+          <div class="container">
+             <div class="product-details">
+              <div class="image">
+                    <img src="${product.img}" alt="${product._id}">
+                  </div>
+                  <div class="detailsinfo">
+                   <h1>Product Info</h1>
+                  <div class="title">${product.name}</div>
+                  <div class="desc">${product.desc}</div>
+                  <div class="price">${product.price}</div>
+                </div>
+              </div>
+          </div>
+      `;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Get the query parameters from the URL
+      const urlParams = new URLSearchParams(window.location.search);
+
+      // Retrieve the product details from the query parameters
+      const productId = urlParams.get('id');
+      const productName = decodeURIComponent(urlParams.get('title'));
+      const productDescription = decodeURIComponent(urlParams.get('description'));
+      const productPrice = decodeURIComponent(urlParams.get('price'));
+      const productImage = decodeURIComponent(urlParams.get('image'));
+
+      // Now you can use these variables to display the product details on the page
+      displayProductDetails(productId, productName, productDescription, productPrice, productImage);
+    });
+
+    function displayProductDetails(id, name, description, price, image) {
+      // Update your HTML elements with the product details
+      document.getElementById('productId').textContent = id;
+      document.getElementById('productName').textContent = name;
+      document.getElementById('productDescription').textContent = description;
+      document.getElementById('productPrice').textContent = price;
+      document.getElementById('productImage').src = image;
+    }
+  </script>
 </body>
 </html>
