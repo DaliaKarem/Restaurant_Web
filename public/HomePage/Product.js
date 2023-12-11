@@ -34,17 +34,25 @@ function createProductHTML(product) {
         <div class="contain" onclick="productDetails(${product._id})">
             <div class="product-det">
                 <div class="product-imag">
-                    <img src="${product.img}" alt="${product._id}">
+                  <img src="${product.img}" alt="${product._id}">
                 </div>
                 <div class="product-titl">${product.name}</div>
                 <div class="product-desc">${product.desc}</div>
                 <div class="product-pri">${product.price}</div>
+                <div class="Edit"><button>Edit</button></div>
             </div>
         </div>
     `;
 }
-
+async function productDetails(ID){
+    console.log(ID);   
+    console.log("Product Details"); 
+    const productsResponse = await fetch("/Products/${ID}");
+    const productsData = await productsResponse.json();
+    window.location.href = `../ProductDetails/productDetails.html?id=${clickedProduct.id}&title=${encodeURIComponent(clickedProduct.title)}&description=${encodeURIComponent(clickedProduct.description)}&price=${encodeURIComponent(clickedProduct.price)}&image=${encodeURIComponent(clickedProduct.image)}`;    myFunc();
+ }
 function renderProducts(products) {
+    //console.log("product Details "+product._id);
     const productListContainer = document.getElementById("productList");
     productListContainer.innerHTML = ''; // Clear previous content
 

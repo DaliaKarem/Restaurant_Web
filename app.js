@@ -2,7 +2,8 @@ const express=require('express');
 const dotenv=require('dotenv');
 const morgan=require('morgan');//middleware logger
 const bodyParser = require('body-parser'); // Add this line
-
+const cors=require('cors');
+const multer=require('multer');
 dotenv.config({path:'config.env' });
 const app=express();
 const path = require('path');
@@ -17,6 +18,8 @@ DB();
 app.use(bodyParser.urlencoded({ extended: true })); // Add this line
 app.use(express.json())
 app.use(morgan('dev'))
+app.use(cors());
+const uploads=multer({dest:__dirname + '/Images'});
 //Routes
 app.use("/Category",CategoryRoute)
 app.use("/Products",ProductRoute);

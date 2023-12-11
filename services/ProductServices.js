@@ -1,15 +1,17 @@
 const asyncHandler = require('express-async-handler')
 const ProductModel=require('../models/ProductModel');
-const { populate } = require('../models/CategoryModel');
-
+const cors=require('cors');
+const multer=require('multer');
+const uploads=multer({dest:__dirname + '/Images'});
 //des   Add Product
 //route  POST /api/v1/Products
 //acc    Admin(private)
 exports.addProduct=asyncHandler(async(req,res)=>{
   console.log("Add product")
-
-  const product=(await ProductModel.create(req.body));
-  res.status(200).json({success:true,data:product});
+  console.log("Images sssss ",req.Img)
+  
+    const product = await ProductModel.create(req.body);
+    res.status(200).json({ success: true, data: product });
 })
 
 //des   get All Products

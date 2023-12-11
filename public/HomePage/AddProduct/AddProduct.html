@@ -2,7 +2,6 @@
 <html>
 <head>
   <title>Add Product</title>
-  <link rel="stylesheet" href="./AddProduct/AddProduct.css">
   <link rel="stylesheet" href="../../Shared/Shared.css">
 </head>
 <body>
@@ -31,8 +30,6 @@
   <div class="drawer">
     <a href="/Home">My Products</a>
     <a class="active" href="/AddProducts">Add Product</a>
-    <a href="#">Edit Product</a>
-    <a href="#">Manage users</a>
   </div>
 
   <div class="container">
@@ -52,15 +49,14 @@
   </div>
 
   <script>
-    async function postData(url = "", data = {}) {
+async function postData(url = "", data = {}) {
       console.log("Request Payload:", JSON.stringify(data));
-
-  // Default options are marked with *
   const response = await fetch(url, {
     method: "POST", 
     headers: {
-      "Content-Type": "application/json",
-    },
+  "Content-Type": "multipart/form-data",
+            },
+
     body: JSON.stringify(data),  
 });
 const responseData = await response.json();
@@ -68,8 +64,7 @@ const responseData = await response.json();
 
   return responseData;
 }
-
-    let submitButton = document.getElementById("submit");
+let submitButton = document.getElementById("submit");
     submitButton.addEventListener("click", async () => {
       console.log("Starting...");
       let name = document.getElementById("name").value;
@@ -78,10 +73,6 @@ const responseData = await response.json();
       let price = document.getElementById("price").value;
       let categoryDropdown = document.getElementById("CategoryOption");
       let selectedCategoryId = categoryDropdown.options[categoryDropdown.selectedIndex].id;
-
-      console.log("Category is " + categoryDropdown.value + " with ID " + selectedCategoryId);
-      console.log("Submit button clicked", name, desc);
-
       let resp = await postData("/Products", {
         name: name,
         desc: desc,
@@ -89,13 +80,17 @@ const responseData = await response.json();
         img: img,
         category: selectedCategoryId,
       });
-console.log("Donnnnnnnnnnnnne",resp['data'] +" "+resp['data']);
+     console.log("Donnnnnnnnnnnnne",resp['success'] +" "+resp['data']);
       if (resp.success) {
         alert("Success Added This Product");
         document.getElementById("name").value = "";
         document.getElementById("desc").value = "";
         document.getElementById("price").value = "";
         document.getElementById("img").value = "";
+      }
+      else{
+        console.error("Error:", resp.error);
+
       }
     });
 
