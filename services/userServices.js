@@ -1,6 +1,6 @@
 const asyncHandler = require('express-async-handler')
 const UserModel=require('../models/UserModel');
-
+const bcrypt=require('bcrypt')
 
 
 exports.addUser=asyncHandler(async(req,res)=>{
@@ -29,12 +29,29 @@ exports.getSpacificUser=asyncHandler(async(req,res,next)=>{
 
 exports.UpdateSpacificUser=asyncHandler(async(req,res)=>{  
     const {id}=req.params;
-   const User=await UserModel.findByIdAndUpdate({_id:id},req.body,{update:true}); 
+   const User=await UserModel.findByIdAndUpdate({_id:id},{
+    name:req.body.name,
+    email:req.body.email,
+    phone:req.body.phone,
+    role:req.body.role
+  },{update:true}); 
     if(!User)
     {
-        res.status(404).json({msg:`Error There is no Product With this ID ${id}`})
+        res.status(404).json({msg:`Error There is no User With this ID ${id}`})
     }
     res.status(200).json({data:User})
+})
+
+exports.ChangeUserPassword=asyncHandler(async(req,res)=>{  
+  const {id}=req.params;
+ const User=await UserModel.findByIdAndUpdate({_id:id},{
+password:await bcrypt.hash(req.body.password,12)
+},{update:true}); 
+  if(!User)
+  {
+      res.status(404).json({msg:`Error There is no User With this ID  ${id}`})
+  }
+  res.status(200).json({data:User})
 })
 
 exports.DeleteSpacificUser=asyncHandler(async(req,res)=>{
