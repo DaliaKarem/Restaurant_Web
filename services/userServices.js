@@ -44,8 +44,9 @@ exports.UpdateSpacificUser=asyncHandler(async(req,res)=>{
 
 exports.ChangeUserPassword=asyncHandler(async(req,res)=>{  
   const {id}=req.params;
+  console.log(`---------ChangeUserPassword--------- `);
  const User=await UserModel.findByIdAndUpdate({_id:id},{
-password:await bcrypt.hash(req.body.password,12)
+  password:await bcrypt.hash(req.body.password,12)
 },{update:true}); 
   if(!User)
   {
