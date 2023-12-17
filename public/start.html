@@ -34,19 +34,58 @@
     </div>
     </nav>
 
-    <div class="contain">
-      <p id="login">Login</p>
-      <form action="/Home" class="form" method="post">
-          <input type="text" id="email" name="email" placeholder="Enter Email"><br><br>
-          <input type="password" id="password" name="password" placeholder="Enter Password"><br><br>
-          <input id="Submit" type="submit" value="Submit">
-      </form> 
-  </div>
-    
-    <div class="center">
-        <i class="welcome">Welcome to </i>
-        <p><span>Grand</span> restaurant</p>
-        <p class="speciall">Making delicious premium food since 1990. Book online now!</p>
+    <div class="big-container">
+      <div class="right-container">
+        <div class="contain" id="login-container">
+          <p id="login">Login</p>
+          <form action="/Home" class="form" method="post">
+            <input type="text" id="email" name="email" placeholder="Enter Email"><br><br>
+            <input type="password" id="password" name="password" placeholder="Enter Password"><br><br>
+            <input id="Submit" type="submit" value="Submit">
+          </form>
+          <p>Doesn't Have an Account<a href="#" id="signup-link">Sign Up</a></p>
+        </div>
+          <div class="contain" id="signup-form">
+          <p id="signup">Sign Up</p>
+          <form action="/Signup" class="form" method="post">
+            <!-- Add your signup form fields here -->
+            <input type="text" id="signup-name" name="signup-name" placeholder="Enter Name"><br><br>
+            <input type="text" id="signup-email" name="signup-email" placeholder="Enter Email"><br><br>
+            <input type="password" id="signup-password" name="signup-password" placeholder="Create Password"><br><br>
+            <input id="Submit" type="submit" value="Sign Up">
+          </form>
+          <p>Already Have an Account<a href="#" id="login-link">Login</a></p>
+        </div>
+      </div>
+      <div class="left-container">
+        <div class="center">
+          <i class="welcome">Welcome to </i>
+          <p><span class="special">Grand</span> restaurant</p>
+          <p class="special">Making delicious premium food since 1990. Book online now!</p>
+        </div>
+      </div>
     </div>
 </body>
+<script>
+  
+  document.addEventListener('DOMContentLoaded', function () {
+      const loginContainer = document.getElementById('login-container');
+      const signupForm = document.getElementById('signup-form');
+      const signupLink = document.getElementById('signup-link');
+      const loginLink = document.getElementById('login-link');
+
+      signupLink.addEventListener('click', function (event) {
+        event.preventDefault();
+        loginContainer.style.display = 'none';
+        signupForm.style.display = 'block';
+      });
+
+      loginLink.addEventListener('click', function (event) {
+        event.preventDefault();
+        loginContainer.style.display = 'block';
+        signupForm.style.display = 'none';
+      });
+    });
+
+</script>
 </html>
