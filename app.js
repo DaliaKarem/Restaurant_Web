@@ -13,6 +13,7 @@ const DB=require('./config/DB')
 const CategoryRoute=require('./Routes/CategoryRoute');
 const ProductRoute=require('./Routes/ProductRoute');
 const UserRoute=require('./Routes/UserRoute');
+const authorRoute=require('./Routes/authRoute')
 
 //connect DataBase
 DB();
@@ -26,6 +27,7 @@ const uploads=multer({dest:__dirname + '/Images'});
 app.use("/Category",CategoryRoute)
 app.use("/Products",ProductRoute);
 app.use("/Users",UserRoute);
+app.use("/Auth",authorRoute);
 
 app.use(express.static(path.join(__dirname,'public')));
 
