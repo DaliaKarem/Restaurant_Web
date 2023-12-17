@@ -32,3 +32,30 @@ exports.login=asyncHandler(async (req, res) => {
     res.status(201).json({success:true,data:user,token})
 
 })
+
+//Protect methods
+//to make sure that the admin has rights to add or delete 
+exports.protect = asyncHandler(async(req, res,next)=>{
+//check token exist - verify token -check user exists with id - check if user change pass after token created
+//token will exist in headers Authorization
+console.log(req.headers);
+var token;
+if(req.headers.authorization){
+token =req.headers.authorization.split(' ')[1];
+console.log(token);
+}
+if(!token){
+    res.status(401).json({success:false,msg:`u have to login first`})
+
+}
+
+try {
+    const decode = jwt.verify(token, process.env.JWT_SECRET);
+    const currentUser = await UserModel.findById(decode.userId);
+    req.user = currentUser;
+    next();
+} catch (error) {
+    res.status(401).json({ success: false, msg: 'Invalid token' });
+}
+
+})
