@@ -1,15 +1,46 @@
 body {
-    display: flex;
-    justify-content: space-between;
-}
+    margin: 0;
+  }
 
-.welcome {
+  .big-container {
+    display: flex;
+    flex-direction: column; /* Updated to column */
+    padding: 20px; /* Adjust as needed */
+  }
+
+  .left-container,
+  .right-container {
+    flex-grow: 1;
+  }
+
+  .left-container {
+    display: flex;
+    flex-basis: 50%; /* Set the width for the left container */
+    align-items: center;
+  }
+
+  .right-container {
+    padding-left: 50%;
+    flex-basis: 50%; /* Set the width for the right container */
+    text-align: center;
+    /* Optional: Center content in the right container */
+  }
+
+  #login {
+    font-size: 24px;
+  }
+
+  .form {
+    background-color: #eee; /* Example background color */
+    padding: 20px; /* Example padding */
+    border-radius: 10px; /* Example border-radius */
+  }
+
+  .center {
+    text-align: center;
     font-family: 'Dancing Script', cursive;
     color: #6e1c1a;
     font-size: 8vw;
-}
-
-.center {
     background-color: #222;
     position: fixed;
     width: 30%;
@@ -24,22 +55,22 @@ body {
     text-align: left;
     margin: 5%;
     align-self: flex-start; /* Align the center div to the top */
-}
+  }
 
-.speciall {
+  .speciall {
     font-size: 10vm;
-}
+  }
 
-.contain #Submit {
+  .contain #Submit {
     background-color: rgb(170, 167, 167);
     border-radius: 10px;
     color: black;
     text-align: center;
     font-size: 15px;
     display: inline;
-}
+  }
 
-.contain {
+  .contain {
     border: 2px outset white;
     border-radius: 10px;
     text-align: center;
@@ -47,27 +78,30 @@ body {
     max-width: 400px; /* Maximum width to ensure flexibility */
     height: 350px;
     margin-top: 60px;
-    margin-left: 70%; /* Adjusted margin for spacing */
-}
+  }
 
-#login {
-    font-weight: bold;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    font-size: 30px;
-}
-
-#email,
-#password {
+  #email,
+  #password {
     width: 80%; /* Adjusted width for better spacing */
     max-width: 200px; /* Maximum width to ensure flexibility */
     height: 25px;
     border-radius: 12px;
     border: 2px outset black;
-}
+  }
 
-.signup_clicker:checked {
+  .signup_clicker:checked {
     cursor: pointer;
-}
+  }
 
-/* Responsive styles */
+  .welcome {
+    font-style: italic;
+  }
 
+  .special {
+    font-weight: bold;
+  }
+
+  /* Additional styles for the signup form */
+  #signup-form {
+    display: none;
+  }
