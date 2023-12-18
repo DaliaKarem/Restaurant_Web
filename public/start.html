@@ -38,21 +38,21 @@
       <div class="right-container">
         <div class="contain" id="login-container">
           <p id="login">Login</p>
-          <form action="/Home" class="form" method="post">
+          <form action="/Auth/login" class="form" method="post">
             <input type="text" id="email" name="email" placeholder="Enter Email"><br><br>
             <input type="password" id="password" name="password" placeholder="Enter Password"><br><br>
-            <input id="Submit" type="submit" value="Submit">
+            <input id="Login" type="submit" value="Login">
           </form>
           <p>Doesn't Have an Account<a href="#" id="signup-link">Sign Up</a></p>
         </div>
           <div class="contain" id="signup-form">
           <p id="signup">Sign Up</p>
-          <form action="/Signup" class="form" method="post">
-            <!-- Add your signup form fields here -->
-            <input type="text" id="signup-name" name="signup-name" placeholder="Enter Name"><br><br>
-            <input type="text" id="signup-email" name="signup-email" placeholder="Enter Email"><br><br>
-            <input type="password" id="signup-password" name="signup-password" placeholder="Create Password"><br><br>
-            <input id="Submit" type="submit" value="Sign Up">
+          <form action="/Auth/signup" class="form" method="post">
+            <input type="text" id="SignUp_name" name="name" placeholder="Enter Name"><br><br>
+            <input type="text" id="SignUp_email" name="email" placeholder="Enter Email"><br><br>
+            <input type="password" id="SignUp_password" name="password" placeholder="Create Password"><br><br>
+            <input type="text" id="role" name="role" placeholder="role" value="admin" style="display:none;"><br><br>
+            <input id="SignUp" type="submit" value="Sign Up">
           </form>
           <p>Already Have an Account<a href="#" id="login-link">Login</a></p>
         </div>
@@ -67,25 +67,88 @@
     </div>
 </body>
 <script>
-  
-  document.addEventListener('DOMContentLoaded', function () {
-      const loginContainer = document.getElementById('login-container');
-      const signupForm = document.getElementById('signup-form');
-      const signupLink = document.getElementById('signup-link');
-      const loginLink = document.getElementById('login-link');
+    let submitButton = document.getElementById("SignUp");
+    let loginButton = document.getElementById("Login");
+    const loginContainer = document.getElementById('login-container');
+    const signupForm = document.getElementById('signup-form');
+    const signupLink = document.getElementById('signup-link');
+    const loginLink = document.getElementById('login-link');
 
-      signupLink.addEventListener('click', function (event) {
-        event.preventDefault();
-        loginContainer.style.display = 'none';
-        signupForm.style.display = 'block';
-      });
+    document.addEventListener('DOMContentLoaded', function () {
+    
+    signupLink.addEventListener('click', function (event) {
+      event.preventDefault();
+      console.log('Signup link clicked');
 
-      loginLink.addEventListener('click', function (event) {
-        event.preventDefault();
-        loginContainer.style.display = 'block';
-        signupForm.style.display = 'none';
-      });
+      loginContainer.style.display = 'none';
+      signupForm.style.display = 'block';
     });
+
+    loginLink.addEventListener('click', function (event) {
+      event.preventDefault();
+      console.log('Login link clicked');
+
+      loginContainer.style.display = 'block';
+      signupForm.style.display = 'none';
+    });
+ 
+  });
+  async function postData(url = "", data = {}) {
+         // Default options are marked with *
+         const response = await fetch(url, {
+           method: "POST", 
+           headers: {
+             "Content-Type": "application/json",
+           },
+           body: JSON.stringify(data),  
+       });
+       let datas = await response.json();
+         return datas; 
+       }
+       
+  submitButton.addEventListener("click", async () => {
+
+    console.log("Starting...");
+    let role = document.getElementById("role").value;
+    let name = document.getElementById("SignUp_name").value;
+    let email = document.getElementById("SignUp_email").value;
+    let password = document.getElementById("SignUp_password").value;
+    let resp = await postData("Auth/signup", {
+      name: name,
+      email: email,
+      password: password,
+      role : role,
+    });
+    if (resp.success) {
+      alert("Success! You have signed up. Redirecting to login...");
+      window.location.href = "/login";
+    } else {
+      console.error("Error:", resp.error);
+    }
+  });
+  
+  loginButton.addEventListener("click", async()=>{
+   
+    console.log("Login");
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+    let response = await postData("Auth/login",{
+      email: email,
+      password: password,
+    })
+    console.log("response from server", response);
+
+    if (response.success) {
+            alert("Success! You are logged in.");
+            location.replace("/Home")
+          } 
+          else {
+            alert("Error:", responseData.msg);
+            window.location.href = "/login";
+        }
+  });
+
+
 
 </script>
 </html>

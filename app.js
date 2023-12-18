@@ -13,6 +13,7 @@ const DB=require('./config/DB')
 const CategoryRoute=require('./Routes/CategoryRoute');
 const ProductRoute=require('./Routes/ProductRoute');
 const UserRoute=require('./Routes/UserRoute');
+const authorRoute=require('./Routes/authRoute')
 
 //connect DataBase
 DB();
@@ -26,6 +27,7 @@ const uploads=multer({dest:__dirname + '/Images'});
 app.use("/Category",CategoryRoute)
 app.use("/Products",ProductRoute);
 app.use("/Users",UserRoute);
+app.use("/Auth",authorRoute);
 
 app.use(express.static(path.join(__dirname,'public')));
 
@@ -42,6 +44,7 @@ app.get('/AddProducts',(req,res)=>{
 
 
 //Api
+/*
 app.post('/Home',async (req, res) => {
     console.log("here is /Home");
     // Assuming you have user authentication logic here
@@ -57,7 +60,7 @@ app.post('/Home',async (req, res) => {
         res.status(401).send('Authentication failed');
     }
 });
-
+*/
 app.use('*',(req,res,next)=>{
     res.status(404);
     res.send('<h1>404 Not Found</h1>');
