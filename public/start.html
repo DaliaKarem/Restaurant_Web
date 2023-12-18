@@ -38,7 +38,7 @@
       <div class="right-container">
         <div class="contain" id="login-container">
           <p id="login">Login</p>
-          <form action="/login" class="form" method="post">
+          <form action="/Auth/login" class="form" method="post">
             <input type="text" id="email" name="email" placeholder="Enter Email"><br><br>
             <input type="password" id="password" name="password" placeholder="Enter Password"><br><br>
             <input id="Login" type="submit" value="Login">
@@ -68,6 +68,7 @@
 </body>
 <script>
     let submitButton = document.getElementById("SignUp");
+    let loginButton = document.getElementById("Login");
     const loginContainer = document.getElementById('login-container');
     const signupForm = document.getElementById('signup-form');
     const signupLink = document.getElementById('signup-link');
@@ -92,23 +93,21 @@
     });
  
   });
-
   async function postData(url = "", data = {}) {
-    const formData = new FormData();
-    for (let key in data) {
-      formData.append(key, data[key]);
-    }
-
-    const response = await fetch(url, {
-      method: "POST",
-      body: formData,
-    });
-
-    const responseData = await response.json();
-    console.log(responseData);
-    return responseData;
-  }
+         // Default options are marked with *
+         const response = await fetch(url, {
+           method: "POST", 
+           headers: {
+             "Content-Type": "application/json",
+           },
+           body: JSON.stringify(data),  
+       });
+       let datas = await response.json();
+         return datas; 
+       }
+       
   submitButton.addEventListener("click", async () => {
+
     console.log("Starting...");
     let role = document.getElementById("role").value;
     let name = document.getElementById("SignUp_name").value;
@@ -120,14 +119,36 @@
       password: password,
       role : role,
     });
-    if (resp!=null) {
+    if (resp.success) {
       alert("Success! You have signed up. Redirecting to login...");
-      // Redirect to the login view after a successful signup
-      
-       window.location.href = "/start.html";
+      window.location.href = "/login";
     } else {
       console.error("Error:", resp.error);
     }
   });
+  
+  loginButton.addEventListener("click", async()=>{
+   
+    console.log("Login");
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+    let response = await postData("Auth/login",{
+      email: email,
+      password: password,
+    })
+    console.log("response from server", response);
+
+    if (response.success) {
+            alert("Success! You are logged in.");
+            location.replace("/Home")
+          } 
+          else {
+            alert("Error:", responseData.msg);
+            window.location.href = "/login";
+        }
+  });
+
+
+
 </script>
 </html>
