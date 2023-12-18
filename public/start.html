@@ -139,7 +139,9 @@
     console.log("response from server", response);
 
     if (response.success) {
+         console.log("Token is "+response.token);
             alert("Success! You are logged in.");
+            localStorage.setItem("admin",JSON.stringify (response.token))
             location.replace("/Home")
           } 
           else {

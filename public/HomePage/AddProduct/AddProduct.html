@@ -50,19 +50,18 @@
 
   <script>
 async function postData(url = "", data = {}) {
-      console.log("Request Payload:", JSON.stringify(data));
+  const token = JSON.parse(localStorage.getItem("admin"));
+  console.log("token is " + token);
   const response = await fetch(url, {
     method: "POST", 
     headers: {
-  "Content-Type": "multipart/form-data",
-            },
-
+      "Content-Type": "application/json",
+      "Authorization":`Bearer ${token}`
+    },
     body: JSON.stringify(data),  
 });
-const responseData = await response.json();
-  console.log("Response:", responseData);
-
-  return responseData;
+  let datas= await response.json(); 
+  return datas;
 }
 let submitButton = document.getElementById("submit");
     submitButton.addEventListener("click", async () => {
@@ -78,9 +77,8 @@ let submitButton = document.getElementById("submit");
         desc: desc,
         price: price,
         img: img,
-        category: selectedCategoryId,
+        category: categoryDropdown.options[categoryDropdown.selectedIndex].id,
       });
-     console.log("Donnnnnnnnnnnnne",resp['success'] +" "+resp['data']);
       if (resp.success) {
         alert("Success Added This Product");
         document.getElementById("name").value = "";

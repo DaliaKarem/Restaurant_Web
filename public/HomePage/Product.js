@@ -1,11 +1,19 @@
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         // Fetch categories
-        const categoryResponse = await fetch("/Category");
+        const categoryResponse = await fetch("/Category",{
+            headers:{
+                Authorization:`Bearer ${localStorage.getItem('admin')}`
+            }
+        });
         const categoryData = await categoryResponse.json();
 
         // Fetch products
-        const productsResponse = await fetch("/Products");
+        const productsResponse = await fetch("/Products",{
+            headers:{
+                Authorization:`Bearer ${localStorage.getItem('admin')}`
+            }
+        });
         const productsData = await productsResponse.json();
 
         // Render categories
@@ -46,6 +54,7 @@ function createProductHTML(product) {
 }
 async function productDetails(ID){
     console.log(ID);   
+    console.log(localStorage.getItem('admin')),
     console.log("Product Details"); 
     const productsResponse = await fetch("/Products/${ID}");
     const productsData = await productsResponse.json();
