@@ -7,11 +7,15 @@ const jwt = require('jsonwebtoken');
 // public
 exports.signup=asyncHandler(async(req,res)=>{
     //ater create i will generate token for users
+    console.log("Received data:", req.body); // Log the received data
+    console.log(req.body.role);
     const user=await UserModel.create({
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        role: req.body.role||'user',
     });
+
     //token -->Header(type ,alg) Pyload(Data ) secret key will be in config
     var token = jwt.sign({ userId:user.id }, process.env.JWT_SECRET,{
         expiresIn:process.env.JWT_Exp,

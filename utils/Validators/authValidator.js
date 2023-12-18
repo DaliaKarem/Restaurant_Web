@@ -12,8 +12,8 @@ exports.validateSignUp=[
             throw new Error('Email in use: ' + val);
           }
     }),
-    check('password').notEmpty().withMessage("Pass Req").isLength({min:6}).withMessage("Too Short")
-    .custom((password ,{req})=>
+    check('password').notEmpty().withMessage("Pass Req").isLength({min:6}).withMessage("Too Short"),
+    /*.custom((password ,{req})=>
     {
         console.log('pass confirm not equal pass ' + password + ' '+req.body.passwordConfrm);
         if(password !== req.body.passwordConfrm)
@@ -23,8 +23,9 @@ exports.validateSignUp=[
         return true;
     }
        )   ,
-    check('passwordConfrm').notEmpty().withMessage("pass Confirm req"),    
-    validatorMiddelWare,
+    //check('passwordConfrm').notEmpty().withMessage("pass Confirm req"),    
+   */
+   validatorMiddelWare,
 ]
 exports.validateLogin=[
     check('id').notEmpty().withMessage("Invalid Id"),
