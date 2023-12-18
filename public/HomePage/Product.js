@@ -45,6 +45,7 @@ function createProductHTML(product) {
                   <img src="${product.img}" alt="${product._id}">
                 </div>
                 <div class="product-titl">${product.name}</div>
+                <div class="product-desc">${product.category ? product.category.name : 'No Category'}</div>
                 <div class="product-desc">${product.desc}</div>
                 <div class="product-pri">${product.price}</div>
                 <div class="Edit"><button>Edit</button></div>
