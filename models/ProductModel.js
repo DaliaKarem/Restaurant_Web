@@ -25,10 +25,20 @@ const ProductSchema = new Schema({
         minlength: [3, 'Too short'],
         maxlength: [30, 'Too long']
     },
-    img:{
-        type: String,
-        //required: [true, "Product img is required"],
-    },
+    img: {
+        name: String,
+        image: {
+          data: {
+            type: Buffer,
+            required: [true, "Product img data is required"]
+          },
+          contentType: {
+            type: String,
+            required: [true, "Product img contentType is required"]
+          }
+        }
+      },
+    //name:String    image{ data: Buffer  contentType: String}
    category:{
     type: Schema.Types.ObjectId,
     ref:'Category',

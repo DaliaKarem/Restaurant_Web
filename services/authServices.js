@@ -1,65 +1,81 @@
-const asyncHandler = require('express-async-handler')
-const UserModel=require('../models/UserModel');
-const bcrypt=require('bcrypt');
+const asyncHandler = require('express-async-handler');
+const UserModel = require('../models/UserModel');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-//  Post  /auth/Signup
+// POST /auth/Signup
 // public
-exports.signup=asyncHandler(async(req,res)=>{
-    //ater create i will generate token for users
-    console.log("Received data:", req.body); // Log the received data
-    console.log(req.body.role);
-    const user=await UserModel.create({
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        role: req.body.role||'user',
-    });
+exports.signup = asyncHandler(async (req, res) => {
+    // After creating the user, generate a token for the user
+    console.log("Received data:", req.body);
 
-    //token -->Header(type ,alg) Pyload(Data ) secret key will be in config
-    var token = jwt.sign({ userId:user.id }, process.env.JWT_SECRET,{
-        expiresIn:process.env.JWT_Exp,
-    });
-    console.log("token is  "+token);
-    res.status(201).json({success:true,data:user,token})
-})
-exports.login=asyncHandler(async (req, res) => {
+    try {
+        const user = await UserModel.create({
+            name: req.body.name,
+            email: req.body.email,
+            password: req.body.password,
+            role: req.body.role || 'user',
+        });
 
-    const user=await UserModel.findOne({email:req.body.email})
-   // console.log("password is  "+req.body.password+"  "+user.password)
-    if(!user||!(await bcrypt.compare(req.body.password,user.password))){
-         res.status(404).json({success:false,msg:`Error n password or Email`})
+        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+            expiresIn: process.env.JWT_Exp,
+        });
+
+        console.log("Token:", token);
+
+        res.status(201).json({ success: true, data: user, token });
+    } catch (error) {
+        console.error("Error creating user:", error.message);
+        res.status(500).json({ success: false, msg: 'Internal Server Error' });
     }
-    var token = jwt.sign({ userId:user.id }, process.env.JWT_SECRET,{
-        expiresIn:process.env.JWT_Exp,
-    });
-    res.status(201).json({success:true,data:user,token})
+});
 
-})
+// POST /auth/Login
+// public
+exports.login = asyncHandler(async (req, res) => {
+    try {
+        const user = await UserModel.findOne({ email: req.body.email });
 
-//Protect methods
-//to make sure that the admin has rights to add or delete 
-exports.protect = asyncHandler(async(req, res,next)=>{
-//check token exist - verify token -check user exists with id - check if user change pass after token created
-//token will exist in headers Authorization
-console.log(req.headers);
-var token;
-if(req.headers.authorization){
-token =req.headers.authorization.split(' ')[1];
-console.log(token);
-}
-if(!token){
-    res.status(401).json({success:false,msg:`u have to login first`})
+        if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
+            return res.status(404).json({ success: false, msg: 'Error in password or email' });
+        }
 
-}
+        const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+            expiresIn: process.env.JWT_Exp,
+        });
 
-try {
-    const decode = jwt.verify(token, process.env.JWT_SECRET);
-    const currentUser = await UserModel.findById(decode.userId);
-    req.user = currentUser;
-    next();
-} catch (error) {
-    res.status(401).json({ success: false, msg: 'Invalid token' });
-}
+        res.status(200).json({ success: true, data: user, token });
+    } catch (error) {
+        console.error("Error during login:", error.message);
+        res.status(500).json({ success: false, msg: 'Internal Server Error' });
+    }
+});
 
-})
+// Protect methods
+exports.protect = asyncHandler(async (req, res, next) => {
+    try {
+        // Check if token exists in headers Authorization
+        var token;
+        if (req.headers.authorization) {
+            token = req.headers.authorization.split(' ')[1];
+            console.log("Token:", token);
+        }
+
+        if (!token) {
+            return res.status(401).json({ success: false, msg: 'You have to login first' });
+        }
+
+        const decode = jwt.verify(token, process.env.JWT_SECRET);
+        const currentUser = await UserModel.findById(decode.userId);
+
+        if (!currentUser) {
+            return res.status(401).json({ success: false, msg: 'User not found' });
+        }
+
+        req.user = currentUser;
+        next();
+    } catch (error) {
+        console.error("Error during token verification:", error.message);
+        res.status(401).json({ success: false, msg: 'Invalid token' });
+    }
+});

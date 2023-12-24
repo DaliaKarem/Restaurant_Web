@@ -1,3 +1,6 @@
+const Name=document.getElementById("Name");
+Name.textContent=localStorage.getItem("name");
+
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         // Fetch categories

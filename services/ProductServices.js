@@ -1,18 +1,38 @@
 const asyncHandler = require('express-async-handler')
-const ProductModel=require('../models/ProductModel');
-const cors=require('cors');
-const multer=require('multer');
-const uploads=multer({dest:__dirname + '/Images'});
-//des   Add Product
-//route  POST /api/v1/Products
-//acc    Admin(private)
-exports.addProduct=asyncHandler(async(req,res)=>{
-  console.log("Add product")
-  console.log("Images sssss ",req.Img)
-  
-    const product = await ProductModel.create(req.body);
-    res.status(200).json({ success: true, data: product });
-})
+const ProductModel = require('../models/ProductModel');
+const cors = require('cors');
+const multer = require('multer');
+const storage = multer.memoryStorage();
+
+const upload = multer({ storage: storage });
+
+// Add Product
+// POST /api/v1/Products
+// Admin(private)
+exports.addProduct = asyncHandler(upload.single('Image'), async (req, res) => {
+  console.log("Add product");
+  console.log("Images sssss ", req.file);
+
+  const product = await ProductModel.create({
+    name: req.body.name,
+    desc: req.body.desc,
+    price: req.body.price,
+    price_Dis: req.body.price_Dis,
+    img: {
+      name: req.file.originalname,
+      image: {
+        data: req.file.buffer,
+        contentType: req.file.mimetype
+      }
+    },
+    category: req.body.category,
+    Rating: req.body.Rating,
+  });
+
+  product.save()
+
+  res.status(200).json({ success: true, data: product });
+});
 
 //des   get All Products
 //route  Get /api/v1/Products

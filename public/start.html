@@ -121,7 +121,7 @@
     });
     if (resp.success) {
       alert("Success! You have signed up. Redirecting to login...");
-      window.location.href = "/login";
+      window.location.href = "/start.html";
     } else {
       console.error("Error:", resp.error);
     }
@@ -141,7 +141,8 @@
     if (response.success) {
          console.log("Token is "+response.token);
             alert("Success! You are logged in.");
-            localStorage.setItem("admin",JSON.stringify (response.token))
+            localStorage.setItem("admin",JSON.stringify (response.token)),
+            localStorage.setItem("name",JSON.stringify (response.data.name));
             location.replace("/Home")
           } 
           else {
