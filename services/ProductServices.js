@@ -2,7 +2,15 @@ const asyncHandler = require('express-async-handler')
 const ProductModel = require('../models/ProductModel');
 const cors = require('cors');
 const multer = require('multer');
-const storage = multer.memoryStorage();
+const path=require('path');
+const storage = multer.diskStorage({
+  destination:function(req, file,cb){
+    cb(null,path.join(__dirname,"../Images"))
+  },
+  filename:function(req,file,cb){
+    cb(null,new Date().toISOString().replace(/:/g,"-")+file.originalname)
+  }
+});
 
 const upload = multer({ storage: storage });
 
@@ -13,21 +21,7 @@ exports.addProduct = asyncHandler(upload.single('Image'), async (req, res) => {
   console.log("Add product");
   console.log("Images sssss ", req.file);
 
-  const product = await ProductModel.create({
-    name: req.body.name,
-    desc: req.body.desc,
-    price: req.body.price,
-    price_Dis: req.body.price_Dis,
-    img: {
-      name: req.file.originalname,
-      image: {
-        data: req.file.buffer,
-        contentType: req.file.mimetype
-      }
-    },
-    category: req.body.category,
-    Rating: req.body.Rating,
-  });
+  const product = await ProductModel.create(req.body);
 
   product.save()
 

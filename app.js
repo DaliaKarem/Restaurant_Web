@@ -31,6 +31,7 @@ app.use("/Users",UserRoute);
 app.use("/Auth",authorRoute);
 
 app.use(express.static(path.join(__dirname,'public')));
+app.use(express.static(path.join(__dirname,'Images')));
 
 //Pages
 app.get('/',(req,res)=>{

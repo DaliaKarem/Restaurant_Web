@@ -40,8 +40,8 @@
         <select name="Category" id="CategoryOption" style="float: left;margin-left: 20px;"></select>
       <br/>
         <label for="img">Select image:</label>
-      <input type="file" id="img" name="img" accept=".jpg, .jpeg, .png" onchange="handleFileSelection(event)">
-      <div class="product-title"><input size="60%" placeholder="Product" id="name"></div>
+        <input type="file" id="imgInput" name="img" accept=".jpg, .jpeg, .png" onchange="handleFileSelection(event)">
+        <div class="product-title"><input size="60%" placeholder="Product" id="name"></div>
       <div class="product-description"><input size="60%" id="desc" placeholder="Product description"></div>
       <div class="product-price"><input size="60%" id="price" placeholder="120"></div>
       <button id="submit"> Add </button>
@@ -61,7 +61,7 @@ async function postData(url = "", data = {}) {
     headers: {
       "Authorization":`Bearer ${token}`
     },
-    body: JSON.stringify(data),  
+    body: formData,  
 });
   let datas= await response.json(); 
   return datas;
@@ -71,12 +71,12 @@ let submitButton = document.getElementById("submit");
       console.log("Starting...");
       let name = document.getElementById("name").value;
       let desc = document.getElementById("desc").value;
-      let imgInput = document.getElementById("img");
+      let imgInput = document.getElementById("imgInput");
       let price = document.getElementById("price").value;
       let categoryDropdown = document.getElementById("CategoryOption");
       let selectedCategoryId = categoryDropdown.options[categoryDropdown.selectedIndex].id;
      
- /* let formData = new FormData();
+  let formData = new FormData();
   formData.append("name", name);
   formData.append("desc", desc);
   formData.append("img", imgInput.files[0]);
@@ -85,15 +85,8 @@ let submitButton = document.getElementById("submit");
   console.log("FormData content:");
     for (const entry of formData.entries()) {
         console.log(entry[0], entry[1]);
-    }*/
-      let resp = await postData("/Products",{
-        name: name,
-        desc: desc,
-        price: price,
-        img: imgInput.files[0],
-        category: categoryDropdown.options[categoryDropdown.selectedIndex].id,
-        
-      })
+    }
+      let resp = await postData("/Products",formData)
       if (resp.success) {
         alert("Success Added This Product");
         document.getElementById("name").value = "";

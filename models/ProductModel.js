@@ -26,8 +26,10 @@ const ProductSchema = new Schema({
         maxlength: [30, 'Too long']
     },
     img: {
-        name: String,
-        image: {
+        type: String,
+        required: [true, "Image is required"],
+
+       /* image: {
           data: {
             type: Buffer,
             required: [true, "Product img data is required"]
@@ -36,7 +38,7 @@ const ProductSchema = new Schema({
             type: String,
             required: [true, "Product img contentType is required"]
           }
-        }
+        }*/
       },
     //name:String    image{ data: Buffer  contentType: String}
    category:{

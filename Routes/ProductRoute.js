@@ -5,7 +5,7 @@ const {validateAddProduct,validateDeleteProduct,validateUpdateProduct,validateSp
 
 const router=express.Router()
 //router.post("/",addCategory)
-router.route("/").post(protect,validateAddProduct,addProduct).get(getAllProducts)
+router.route("/").post(validateAddProduct,addProduct).get(getAllProducts)
 router.route("/:id").get(validateSpecificProduct,getSpacificProduct).put(protect,validateUpdateProduct,UpdateSpacificProduct).delete(validateDeleteProduct,DeleteSpacificProduct)
 //:id/Subcategories  to get all categories from categoriesID
 
