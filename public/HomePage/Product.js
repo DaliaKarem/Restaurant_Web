@@ -1,11 +1,22 @@
+const Name=document.getElementById("Name");
+Name.textContent=localStorage.getItem("name");
+
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         // Fetch categories
-        const categoryResponse = await fetch("/Category");
+        const categoryResponse = await fetch("/Category",{
+            headers:{
+                Authorization:`Bearer ${localStorage.getItem('admin')}`
+            }
+        });
         const categoryData = await categoryResponse.json();
 
         // Fetch products
-        const productsResponse = await fetch("/Products");
+        const productsResponse = await fetch("/Products",{
+            headers:{
+                Authorization:`Bearer ${localStorage.getItem('admin')}`
+            }
+        });
         const productsData = await productsResponse.json();
 
         // Render categories
@@ -37,6 +48,7 @@ function createProductHTML(product) {
                   <img src="${product.img}" alt="${product._id}">
                 </div>
                 <div class="product-titl">${product.name}</div>
+                <div class="product-desc">${product.category ? product.category.name : 'No Category'}</div>
                 <div class="product-desc">${product.desc}</div>
                 <div class="product-pri">${product.price}</div>
                 <div class="Edit"><button>Edit</button></div>
@@ -46,6 +58,7 @@ function createProductHTML(product) {
 }
 async function productDetails(ID){
     console.log(ID);   
+    console.log(localStorage.getItem('admin')),
     console.log("Product Details"); 
     const productsResponse = await fetch("/Products/${ID}");
     const productsData = await productsResponse.json();

@@ -15,6 +15,10 @@ const ProductRoute=require('./Routes/ProductRoute');
 const UserRoute=require('./Routes/UserRoute');
 const authorRoute=require('./Routes/authRoute')
 
+//TODO Doing Fav(add _remove) and Cart(add_remove ) and adding Rates adding Menu for each Restaurant 
+//TODO Best Restaurant by using rates on it
+
+
 //connect DataBase
 DB();
 //Middleware
@@ -22,6 +26,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // Add this line
 app.use(express.json())
 app.use(morgan('dev'))
 app.use(cors());
+//app.use('view engine','ejs');
 const uploads=multer({dest:__dirname + '/Images'});
 //Routes
 app.use("/Category",CategoryRoute)
@@ -30,6 +35,7 @@ app.use("/Users",UserRoute);
 app.use("/Auth",authorRoute);
 
 app.use(express.static(path.join(__dirname,'public')));
+app.use(express.static(path.join(__dirname,'Images')));
 
 //Pages
 app.get('/',(req,res)=>{
@@ -41,26 +47,6 @@ app.get('/Home',(req,res)=>{
 app.get('/AddProducts',(req,res)=>{
     return res.sendFile(path.join(__dirname, 'public', 'HomePage','AddProduct', 'AddProduct.html'));
 })
-
-
-//Api
-/*
-app.post('/Home',async (req, res) => {
-    console.log("here is /Home");
-    // Assuming you have user authentication logic here
-    const { email, password } = req.body;
-    console.log(email + ' ' + password);
-    if(email==='Dalia' && password==='222')
-{
-    return res.sendFile(path.join(__dirname, 'public', 'HomePage', 'HomePage.html'));
-    //return res.sendFile(path.join(__dirname, 'public', 'HomePage','AddProduct', 'AddProduct.html'));
-
-} else {
-        // Handle authentication failure
-        res.status(401).send('Authentication failed');
-    }
-});
-*/
 app.use('*',(req,res,next)=>{
     res.status(404);
     res.send('<h1>404 Not Found</h1>');
