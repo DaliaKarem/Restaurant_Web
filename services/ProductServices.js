@@ -3,30 +3,43 @@ const ProductModel = require('../models/ProductModel');
 const cors = require('cors');
 const multer = require('multer');
 const path=require('path');
+const ImageModel = require('../models/ImagesModel');
 const storage = multer.diskStorage({
-  destination:function(req, file,cb){
-    cb(null,path.join(__dirname,"../Images"))
-  },
+  destination:"Images",
   filename:function(req,file,cb){
-    cb(null,new Date().toISOString().replace(/:/g,"-")+file.originalname)
+    cb(null,file.originalname)
   }
 });
+const upload = multer({ storage: storage }).single('testImage');
 
-const upload = multer({ storage: storage });
+exports.addImage=asyncHandler(async(req,res)=>{
+  console.log("Uploading")
+upload(req,res,(err)=>{
+  if(err) console.log(err);
+  else{
+    const newImage = new ImageModel({
+      name: req.body.name,
+      image:{
+        data: req.file.filename,
+        contentType: 'image/png'
+      }
+    })
+    newImage.save().then(()=>res.send("uploaded " + req.body.name))
+    .catch(()=>console.log("Error uploading"))
+  }
+})
+} )
 
 // Add Product
 // POST /api/v1/Products
 // Admin(private)
-exports.addProduct = asyncHandler(upload.single('Image'), async (req, res) => {
-  console.log("Add product");
-  console.log("Images sssss ", req.file);
+exports.addProduct=asyncHandler(async(req,res)=>{
+  console.log("Add product")
+  console.log("Images sssss ",req.body.img)
 
-  const product = await ProductModel.create(req.body);
-
-  product.save()
-
-  res.status(200).json({ success: true, data: product });
-});
+    const product = await ProductModel.create(req.body);
+    res.status(200).json({ success: true, data: product });
+})
 
 //des   get All Products
 //route  Get /api/v1/Products
