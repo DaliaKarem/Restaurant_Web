@@ -27,15 +27,16 @@ app.use(express.json())
 app.use(morgan('dev'))
 app.use(cors());
 //app.use('view engine','ejs');
-const uploads=multer({dest:__dirname + '/Images'});
 //Routes
+
+app.use(express.static(path.join(__dirname,'public')));
+app.use('/Images', express.static(path.join(__dirname, '../Images')));
+app.use('/files', express.static("files"));
+
 app.use("/Category",CategoryRoute)
 app.use("/Products",ProductRoute);
 app.use("/Users",UserRoute);
 app.use("/Auth",authorRoute);
-
-app.use(express.static(path.join(__dirname,'public')));
-app.use(express.static(path.join(__dirname,'Images')));
 
 //Pages
 app.get('/',(req,res)=>{

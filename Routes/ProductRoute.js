@@ -1,6 +1,6 @@
 const express=require('express');
 const {protect}=require('../services/authServices');
-const {addProduct,getAllProducts,getSpacificProduct,DeleteSpacificProduct,UpdateSpacificProduct}=require('../services/ProductServices');
+const {addImage,addProduct,getAllProducts,getSpacificProduct,DeleteSpacificProduct,UpdateSpacificProduct}=require('../services/ProductServices');
 const {validateAddProduct,validateDeleteProduct,validateUpdateProduct,validateSpecificProduct}=require('../utils/Validators/ProductValidator');
 
 const router=express.Router()

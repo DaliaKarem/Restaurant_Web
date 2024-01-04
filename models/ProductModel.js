@@ -27,18 +27,7 @@ const ProductSchema = new Schema({
     },
     img: {
         type: String,
-        required: [true, "Image is required"],
-
-       /* image: {
-          data: {
-            type: Buffer,
-            required: [true, "Product img data is required"]
-          },
-          contentType: {
-            type: String,
-            required: [true, "Product img contentType is required"]
-          }
-        }*/
+        required: true,
       },
     //name:String    image{ data: Buffer  contentType: String}
    category:{
