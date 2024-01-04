@@ -25,9 +25,9 @@ const ProductSchema = new Schema({
         minlength: [3, 'Too short'],
         maxlength: [30, 'Too long']
     },
-    Image: {
+    img: {
         type: String,
-    
+        required: true,
       },
     //name:String    image{ data: Buffer  contentType: String}
    category:{

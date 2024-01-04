@@ -39,8 +39,7 @@
         <label for="category" style="float: left;padding-bottom: 20px;">Category :</label>
         <select name="Category" id="CategoryOption" style="float: left;margin-left: 20px;"></select>
       <br/>
-        <label for="img">Select image:</label>
-        <input type="file" id="Image" name="Image" accept=".jpg, .jpeg, .png" >
+        <div class="product-description"><input size="60%" id="Image" placeholder="Image url"></div>
         <div class="product-title"><input size="60%" placeholder="Product" id="name"></div>
       <div class="product-description"><input size="60%" id="desc" placeholder="Product description"></div>
       <div class="product-price"><input size="60%" id="price" placeholder="120"></div>
@@ -50,59 +49,53 @@
   </div>
 
   <script>
-    const Name=document.getElementById("Name");
-Name.textContent=localStorage.getItem("name");
-
-async function postData(url = "", data = {}) {
-  const token = JSON.parse(localStorage.getItem("admin"));
-  console.log("vvvvvData: " + JSON.stringify(data));
+    const Name = document.getElementById("Name");
+    Name.textContent = localStorage.getItem("name");
+    async function postData(url = "", data = {}) {
+      const token = JSON.parse(localStorage.getItem("admin"));
   const response = await fetch(url, {
-    method: "POST",
+    method: "POST", 
     headers: {
       "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json",
     },
-    body: data,
-  });
-
-  const result = await response.json();
-  console.log("Ress : " + result);
-
-  return result;
+    body: JSON.stringify(data),  
+});
+  let datas= await response.json(); 
+  return datas;
 }
-let submitButton = document.getElementById("submit");
+    let submitButton = document.getElementById("submit");
     submitButton.addEventListener("click", async () => {
       console.log("Starting...");
       let name = document.getElementById("name").value;
       let desc = document.getElementById("desc").value;
-      let imgInput = document.getElementById("Image");
+      let imgInput = document.getElementById("Image").value;
       let price = document.getElementById("price").value;
       let categoryDropdown = document.getElementById("CategoryOption");
-      let selectedCategoryId = categoryDropdown.options[categoryDropdown.selectedIndex].id;
-      let selectedFile = imgInput.files[0];
 
-      console.log("imgInput:", selectedFile);
+console.log("Selected file:", imgInput);
 
-      let resp = await postData("/Products",{
-    name: name,
-    desc: desc,
-    price: price,
-    img: selectedFile,
-    category: categoryDropdown.options[categoryDropdown.selectedIndex].id,
-  });
+let resp = await postData("/Products", {
+  name:name,
+  desc:desc,
+  price:price,
+  category:categoryDropdown.options[categoryDropdown.selectedIndex].id,
+  img:imgInput
+});
+
+  
       if (resp.success) {
         alert("Success Added This Product");
         document.getElementById("name").value = "";
         document.getElementById("desc").value = "";
         document.getElementById("price").value = "";
-        document.getElementById("imgInput").value = "";
-      }
-      else{
+        document.getElementById("Image").value = ""; // Use "Image" instead of "imgInput"
+      } else {
         console.error("Error:", resp.error);
-
       }
     });
-
-    document.addEventListener('DOMContentLoaded', async () => {
+  
+    document.addEventListener("DOMContentLoaded", async () => {
       try {
         const categoryResponse = await fetch("/Category");
         const categoryData = await categoryResponse.json();
@@ -111,19 +104,19 @@ let submitButton = document.getElementById("submit");
         console.error("Error fetching data:", error.message);
       }
     });
-
+  
     function renderCategories(categories) {
-      const categoryList = document.getElementById('CategoryOption');
-
+      const categoryList = document.getElementById("CategoryOption");
+  
       categories.forEach((category, i) => {
-        const listItem = document.createElement('option');
+        const listItem = document.createElement("option");
         listItem.textContent = category.name;
-        listItem.setAttribute('id', category['_id']);
-
+        listItem.setAttribute("id", category["_id"]);
+  
         categoryList.appendChild(listItem);
       });
     }
-
+  
     function handleFileSelection(event) {
       const selectedFile = event.target.files[0];
       if (selectedFile) {
@@ -131,6 +124,9 @@ let submitButton = document.getElementById("submit");
         // You can now use the file object as needed.
       }
     }
+  
+    // Add the event listener for the file input change event
+    document.getElementById("Image").addEventListener("change", handleFileSelection);
   </script>
 </body>
 </html>

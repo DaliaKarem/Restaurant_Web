@@ -31,6 +31,7 @@ app.use(cors());
 
 app.use(express.static(path.join(__dirname,'public')));
 app.use('/Images', express.static(path.join(__dirname, '../Images')));
+app.use('/files', express.static("files"));
 
 app.use("/Category",CategoryRoute)
 app.use("/Products",ProductRoute);

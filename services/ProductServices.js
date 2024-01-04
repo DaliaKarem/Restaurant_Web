@@ -3,44 +3,14 @@ const ProductModel = require('../models/ProductModel');
 const cors = require('cors');
 const multer = require('multer');
 const path=require('path');
-const ImageModel = require('../models/ImagesModel');
-const storage = multer.diskStorage({
-  destination:"Images",
-  filename:function(req,file,cb){
-    cb(null,file.originalname)
-  }
-});
-const upload = multer({ storage: storage }).single('testImage');
-
-exports.addImage=asyncHandler(async(req,res)=>{
-  console.log("Uploading")
-upload(req,res,(err)=>{
-  if(err) console.log(err);
-  else{
-    const newImage = new ImageModel({
-      name: req.body.name,
-      image:{
-        data: req.file.filename,
-        contentType: 'image/png'
-      }
-    })
-    newImage.save().then(()=>res.send("uploaded " + req.body.name))
-    .catch(()=>console.log("Error uploading"))
-  }
-})
-} )
-
-// Add Product
-// POST /api/v1/Products
-// Admin(private)
+//image upload
 exports.addProduct=asyncHandler(async(req,res)=>{
-  console.log("Add product")
-  console.log("Images sssss ",req.body.img)
-
-    const product = await ProductModel.create(req.body);
-    res.status(200).json({ success: true, data: product });
+  console.log('Add Product');
+  console.log(req.body);
+  const product=await ProductModel.create(req.body);
+  product.save();
+  res.status(200).json({ success: true, data: product });
 })
-
 //des   get All Products
 //route  Get /api/v1/Products
 //acc    all(public)
