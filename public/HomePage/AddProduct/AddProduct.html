@@ -20,7 +20,7 @@
               <a href="Settings.html">Settings</a>
             </li>
             <li>
-              <a href="Settings.html">Logout</a>
+              <a href="#" id="logoutButton">Logout</a>
             </li>
           </ul>
         </div>
@@ -35,7 +35,7 @@
   <div class="container">
     <div class="detailsinfo">
       <h1>Add Product</h1>
-      <form method="post" action="/Products" enctype="multipart/form-data">
+      <form action="#" >
         <label for="category" style="float: left;padding-bottom: 20px;">Category :</label>
         <select name="Category" id="CategoryOption" style="float: left;margin-left: 20px;"></select>
       <br/>
@@ -53,6 +53,7 @@
     Name.textContent = localStorage.getItem("name");
     async function postData(url = "", data = {}) {
       const token = JSON.parse(localStorage.getItem("admin"));
+      console.log("data: " + data);
   const response = await fetch(url, {
     method: "POST", 
     headers: {
@@ -61,7 +62,9 @@
     },
     body: JSON.stringify(data),  
 });
+
   let datas= await response.json(); 
+  console.log("response json: " + JSON.stringify(datas));
   return datas;
 }
     let submitButton = document.getElementById("submit");
@@ -73,26 +76,31 @@
       let price = document.getElementById("price").value;
       let categoryDropdown = document.getElementById("CategoryOption");
 
-console.log("Selected file:", imgInput);
+      const userId = localStorage.getItem("userId");
+      console.log("id  ", userId);
 
-let resp = await postData("/Products", {
-  name:name,
-  desc:desc,
-  price:price,
-  category:categoryDropdown.options[categoryDropdown.selectedIndex].id,
-  img:imgInput
+
+      let resp = await postData("/Products", {
+  name: name,
+  desc: desc,
+  price: price,
+  category: categoryDropdown.options[categoryDropdown.selectedIndex].id,
+  img: imgInput,
+  user: userId,
 });
 
-  
-      if (resp.success) {
-        alert("Success Added This Product");
-        document.getElementById("name").value = "";
-        document.getElementById("desc").value = "";
-        document.getElementById("price").value = "";
-        document.getElementById("Image").value = ""; // Use "Image" instead of "imgInput"
-      } else {
-        console.error("Error:", resp.error);
-      }
+console.log("Response status:", resp.status);
+console.log("Response data:", resp);
+
+if (resp.success) {
+  alert("Success Added This Product");
+  document.getElementById("name").value = "";
+  document.getElementById("desc").value = "";
+  document.getElementById("price").value = "";
+  document.getElementById("Image").value = "";
+} else {
+  console.error("Error:", resp.error);
+}
     });
   
     document.addEventListener("DOMContentLoaded", async () => {
@@ -117,16 +125,15 @@ let resp = await postData("/Products", {
       });
     }
   
-    function handleFileSelection(event) {
-      const selectedFile = event.target.files[0];
-      if (selectedFile) {
-        console.log("Selected file:", selectedFile);
-        // You can now use the file object as needed.
-      }
-    }
-  
-    // Add the event listener for the file input change event
-    document.getElementById("Image").addEventListener("change", handleFileSelection);
-  </script>
+    document.getElementById('logoutButton').addEventListener('click', () => {
+  // Clear relevant items from localStorage
+  localStorage.removeItem('admin');
+  localStorage.removeItem('userId');
+  localStorage.removeItem('name');
+
+  // Redirect the user to the login or home page
+  window.location.href = '/start.html'; // Change the URL as needed
+});
+    </script>
 </body>
 </html>

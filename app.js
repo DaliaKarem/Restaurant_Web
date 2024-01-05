@@ -9,7 +9,8 @@ const app=express();
 const path = require('path');
 const DB=require('./config/DB')
 
-
+//Res1 -> 1 (8)
+//Res2->2(8)
 const CategoryRoute=require('./Routes/CategoryRoute');
 const ProductRoute=require('./Routes/ProductRoute');
 const UserRoute=require('./Routes/UserRoute');
