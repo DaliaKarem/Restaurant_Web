@@ -21,6 +21,8 @@ exports.addProduct = asyncHandler(async (req, res) => {
 //route  Get /Products/:user
 //acc    all(public)
 exports.getAllProducts=asyncHandler(async(req,res)=>{
+  console.log("getAllProducts");
+
   const {user}=req.params;
   const AllProduct=await ProductModel.find({user}).populate('category','name'); 
   if(!AllProduct)
@@ -30,11 +32,28 @@ exports.getAllProducts=asyncHandler(async(req,res)=>{
     }
   res.status(200).json({success:true,length:AllProduct.length,data:AllProduct}) 
 })
+//des   get All Products
+//route  Get /Products/:user/:Category
+//acc    all(public)
+exports.getAllProductsWithSameCate = asyncHandler(async (req, res) => {
+  console.log("getAllProductsWithSameCate");
+  const { user, id } = req.params;
+
+  const AllProduct = await ProductModel.find({category:id,user:user}).populate('category', 'name');
+  console.log(user, " ", id);
+  console.log(AllProduct);
+  if (!AllProduct) {
+    res.status(404).json({ msg: `Error There is no Product In this Restaurant with this Cate ${cate}` });
+  }
+  res.status(200).json({ success: true, length: AllProduct.length, data: AllProduct });
+});
 
 //des   get specific Product
 //route  Get /Products/:user/:id
 //acc    all(public)
 exports.getSpacificProduct=asyncHandler(async(req,res,next)=>{ 
+  console.log("getSpacificProduct");
+
   const { user, id } = req.params;
   const product = await ProductModel.findById(id).populate('category','name').find({user});
 
@@ -48,6 +67,8 @@ exports.getSpacificProduct=asyncHandler(async(req,res,next)=>{
 //route  Update /api/v1/Products
 //acc    admin(private)
 exports.UpdateSpacificProduct=asyncHandler(async(req,res)=>{  
+  console.log("UpdateSpacificProduct");
+
     const {id}=req.params;
    const Product=await ProductModel.findByIdAndUpdate({_id:id},req.body,{update:true}); 
     if(!Product)
@@ -60,6 +81,8 @@ exports.UpdateSpacificProduct=asyncHandler(async(req,res)=>{
 //route  Delete /api/v1/Prodcts/:id
 //acc    Admin(private)
 exports.DeleteSpacificProduct=asyncHandler(async(req,res)=>{
+  console.log("DeleteSpacificProduct");
+
     const {id}=req.params;
     const Cate=await ProductModel.findByIdAndDelete(id); 
     if(!Cate)

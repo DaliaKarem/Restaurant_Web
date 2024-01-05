@@ -3,7 +3,7 @@
 <head>
   <title>Home</title>
 <link rel="stylesheet" href="./HomePage/HomePage.css">
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="stylesheet" href="../Shared/Shared.css">
 </head>
 <body>
@@ -42,7 +42,10 @@
     <!--<div id ="CategoryList" class="Category Constainer"></div>
     -->
     <div class="categories">
+
       <ul id="categoryList">
+        <button type="button" id="allProductsButton" class="btn btn-danger btn-lg">All Products</button>
+
       </ul>
   </div>
     <div id="productList" class="products-container" ></div>
@@ -59,6 +62,10 @@
   
     // Redirect the user to the login or home page
     window.location.href = '/start.html'; // Change the URL as needed
+  });
+  document.getElementById('allProductsButton').addEventListener('click', () => {
+    // Redirect to the home page
+    window.location.href = '/Home'; // Change the URL as needed
   });
 </script>
 </body>

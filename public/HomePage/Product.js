@@ -32,11 +32,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 function renderCategories(categories) {
     const categoryList = document.getElementById('categoryList');
-    categoryList.innerHTML = ''; // Clear previous content
 
     categories.forEach((category, i) => {
         const listItem = document.createElement('li');
         listItem.textContent = category.name;
+        listItem.setAttribute('id', category['_id']);
+
+        listItem.addEventListener('click', async () => {
+            // When a category is clicked, render products of that category
+            const categoryId = category['_id'];
+            const userId = localStorage.getItem("userId");
+            await renderProductsByCategory(userId, categoryId);
+        });
+
         categoryList.appendChild(listItem);
     });
 }
@@ -57,14 +65,17 @@ function createProductHTML(product) {
         </div>
     `;
 }
-async function productDetails(ID){
-    console.log(ID);   
-    console.log(localStorage.getItem('admin')),
-    console.log("Product Details"); 
-    const productsResponse = await fetch("/Products/${ID}");
-    const productsData = await productsResponse.json();
-    window.location.href = `../ProductDetails/productDetails.html?id=${clickedProduct.id}&title=${encodeURIComponent(clickedProduct.title)}&description=${encodeURIComponent(clickedProduct.description)}&price=${encodeURIComponent(clickedProduct.price)}&image=${encodeURIComponent(clickedProduct.image)}`;    myFunc();
- }
+async function productDetails(ID) {
+    console.log(ID);
+    console.log(localStorage.getItem('admin'));
+    console.log("Product Details");
+    const productsResponse = await fetch(`/Products/${ID}`);
+    const productData = await productsResponse.json();
+    const product = productData.data;  // Assuming the product data is in a 'data' property
+
+    window.location.href = `../ProductDetails/productDetails.html?id=${product._id}&title=${encodeURIComponent(product.name)}&description=${encodeURIComponent(product.desc)}&price=${encodeURIComponent(product.price)}&image=${encodeURIComponent(product.img)}`;
+    // myFunc(); // Commented out as 'myFunc()' is not defined in the provided code
+}
 function renderProducts(products) {
     //console.log("product Details "+product._id);
     const productListContainer = document.getElementById("productList");
@@ -87,5 +98,19 @@ function renderProducts(products) {
 
     productListContainer.innerHTML = productsHTML;
 }
+async function renderProductsByCategory(userId, categoryId) {
+    try {
+        const productsResponse = await fetch(`/Products/${userId}/${categoryId}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('admin')}`
+            }
+        });
+        const productsData = await productsResponse.json();
 
+        // Render products
+        renderProducts(productsData.data);
+    } catch (error) {
+        console.error("Error fetching data:", error.message);
+    }
+}
 renderProducts();
