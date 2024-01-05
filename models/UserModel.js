@@ -35,10 +35,10 @@ const UserSchema = new Schema({
         minlength: [0, 'Too short'],
         maxlength: [6, 'Too long']
     }],
-    /*img: {
+    img: {
         type: String,
         required: true,
-      },*/
+      },
 },{timestamps: true});
 UserSchema.pre("save",async function(next){
     if(!this.isModified('password')) return next();

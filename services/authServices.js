@@ -7,13 +7,14 @@ const jwt = require('jsonwebtoken');
 // public
 exports.signup = asyncHandler(async (req, res) => {
     // After creating the user, generate a token for the user
-    console.log("Received data:", req.body);
+    console.log("Received dataaaaaa :", req.body);
 
     try {
         const user = await UserModel.create({
             name: req.body.name,
             email: req.body.email,
             password: req.body.password,
+            img: req.body.img,
             role: req.body.role || 'user',
         });
 
