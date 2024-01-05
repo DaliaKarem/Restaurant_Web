@@ -18,14 +18,14 @@
         <div class="dropdown">
           <span id="Name">Name</span>
           <div class="dropdown-content">
-          <ul>
-            <li>
-              <a href="Settings.html">Settings</a>
-            </li>
-            <li>
-              <a href="Settings.html">Logout</a>
-            </li>
-          </ul>
+            <ul>
+              <li>
+                <a href="Settings.html">Settings</a>
+              </li>
+              <li>
+                <a href="#" id="logoutButton">Logout</a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -49,7 +49,17 @@
   
   </div>
  
-  <script src="./HomePage/Product.js">
-  </script>
+  <script src="./HomePage/Product.js"></script>
+<script>
+  document.getElementById('logoutButton').addEventListener('click', () => {
+    // Clear relevant items from localStorage
+    localStorage.removeItem('admin');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('name');
+  
+    // Redirect the user to the login or home page
+    window.location.href = '/start.html'; // Change the URL as needed
+  });
+</script>
 </body>
 </html>

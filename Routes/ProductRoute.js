@@ -5,8 +5,9 @@ const {validateAddProduct,validateDeleteProduct,validateUpdateProduct,validateSp
 
 const router=express.Router()
 //router.post("/",addCategory)
-router.route("/").post(validateAddProduct,addProduct).get(getAllProducts)
-router.route("/:id").get(validateSpecificProduct,getSpacificProduct).put(protect,validateUpdateProduct,UpdateSpacificProduct).delete(validateDeleteProduct,DeleteSpacificProduct)
+router.route("/").post(validateAddProduct,addProduct)
+router.route("/:user").get(getAllProducts)
+router.route("/:user/:id").get(validateSpecificProduct,getSpacificProduct).put(protect,validateUpdateProduct,UpdateSpacificProduct).delete(validateDeleteProduct,DeleteSpacificProduct)
 //:id/Subcategories  to get all categories from categoriesID
 
 

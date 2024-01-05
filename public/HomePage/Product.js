@@ -12,7 +12,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const categoryData = await categoryResponse.json();
 
         // Fetch products
-        const productsResponse = await fetch("/Products",{
+        const userId = localStorage.getItem("userId");
+        const productsResponse = await fetch(`/Products/${userId}`,{
             headers:{
                 Authorization:`Bearer ${localStorage.getItem('admin')}`
             }
@@ -88,4 +89,3 @@ function renderProducts(products) {
 }
 
 renderProducts();
-

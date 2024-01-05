@@ -140,9 +140,12 @@
 
     if (response.success) {
          console.log("Token is "+response.token);
+         console.log("User is "+response.data);
+         console.log("User is "+response.data._id);
             alert("Success! You are logged in.");
             localStorage.setItem("admin",JSON.stringify (response.token)),
-            localStorage.setItem("name",JSON.stringify (response.data.name));
+            localStorage.setItem("name",JSON.stringify (response.data.name).replace(/"/g,''));
+            localStorage.setItem("userId",JSON.stringify (response.data._id).replace(/"/g,''));
             location.replace("/Home")
           } 
           else {
