@@ -29,7 +29,16 @@ const UserSchema = new Schema({
     active:{
         type: 'boolean',
         default: true,
-    }
+    },
+    rateRes:[{
+        type: Number,
+        minlength: [0, 'Too short'],
+        maxlength: [6, 'Too long']
+    }],
+    /*img: {
+        type: String,
+        required: true,
+      },*/
 },{timestamps: true});
 UserSchema.pre("save",async function(next){
     if(!this.isModified('password')) return next();

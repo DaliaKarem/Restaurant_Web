@@ -93,3 +93,35 @@ exports.DeleteSpacificProduct=asyncHandler(async(req,res)=>{
     res.status(204).json({msg:`Done...Delete Category With this ID ${id}`}) 
 
   })  
+
+  exports.RateProducts = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    console.log(`---------Rate Product--------- `);
+  
+    // Assume rate is sent in the request body, adjust as needed
+    const { rate } = req.body;
+  
+    const product = await ProductModel.findById(id);
+    console.log(`---------Product`, product);
+    if (!product) {
+      return res.status(404).json({ msg: `Error There is no Res With this ID ${id}` });
+    }
+  
+    // Add the new rating to the ratings array
+    product.ratings.push(rate);
+  
+    console.log("Ratings: ", product.ratings);
+  
+    // Calculate the average rating
+    const totalRating = product.ratings.reduce((sum, rating) => sum + rating, 0);
+    const averageRating = totalRating / product.ratings.length;
+  
+    console.log("Number of Ratings:", product.ratings.length);
+    console.log("Average Rating:", averageRating);
+    product.ratings = averageRating;
+    // Save the updated product
+    const updateProduct=await product.save();
+  
+    res.status(200).json({ data: updateProduct });
+  });
+  
