@@ -66,3 +66,29 @@ exports.DeleteSpacificUser=asyncHandler(async(req,res)=>{
     res.status(204).json({msg:`Done...Delete User With this ID ${id}`}) 
 
   })  
+
+
+  //Post
+  exports.RateUserResturant = asyncHandler(async (req, res) => {
+    const { id } = req.params; // Restaurant ID
+    console.log(`---------Rate Restaurant--------- `);
+
+    // Assume rate is sent in the request body, adjust as needed
+    const { rate } = req.body;
+
+    // Find the Res from the UserModel
+    const user = await UserModel.findById(id);
+
+    if (!user) {
+        return res.status(404).json({ msg: `Error There is no Res With this ID ${id}` });
+    }
+
+    // Update the user's rateRes with the new rating
+    user.rateRes = (rate+user.rateRes)/2;
+    console.log("Rate  ", rate);
+
+    // Save the updated user
+    const updatedUser = await user.save();
+
+    res.status(200).json({ data: updatedUser });
+});

@@ -100,7 +100,7 @@ function renderProducts(products) {
 }
 async function renderProductsByCategory(userId, categoryId) {
     try {
-        const productsResponse = await fetch(`/Products/${userId}/${categoryId}`, {
+        const productsResponse = await fetch(`/Products/${userId}/Cate/${categoryId}`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('admin')}`
             }

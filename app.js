@@ -16,10 +16,9 @@ const ProductRoute=require('./Routes/ProductRoute');
 const UserRoute=require('./Routes/UserRoute');
 const authorRoute=require('./Routes/authRoute')
 
-//TODO Doing Fav(add _remove) and Cart(add_remove ) and adding Rates adding Menu for each Restaurant 
-//TODO Best Restaurant by using rates on it
-
-
+//TODO Doing Fav(add _remove) and Cart(add_remove ) 
+//TODO Edit on Products ->Laterlly
+//TODO Send verification code in Eamil
 //connect DataBase
 DB();
 //Middleware

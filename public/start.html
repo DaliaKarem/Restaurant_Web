@@ -47,11 +47,14 @@
         </div>
           <div class="contain" id="signup-form">
           <p id="signup">Sign Up</p>
-          <form action="/Auth/signup" class="form" method="post">
+          <form action="#" class="form" >
             <input type="text" id="SignUp_name" name="name" placeholder="Enter Name"><br><br>
             <input type="text" id="SignUp_email" name="email" placeholder="Enter Email"><br><br>
             <input type="password" id="SignUp_password" name="password" placeholder="Create Password"><br><br>
+            <input  type="text"  id="Image" placeholder="Image url">
+
             <input type="text" id="role" name="role" placeholder="role" value="admin" style="display:none;"><br><br>
+
             <input id="SignUp" type="submit" value="Sign Up">
           </form>
           <p>Already Have an Account<a href="#" id="login-link">Login</a></p>
@@ -95,6 +98,9 @@
   });
   async function postData(url = "", data = {}) {
          // Default options are marked with *
+         console.log("data: " + data);
+         console.log("data: " +  JSON.stringify(data));
+
          const response = await fetch(url, {
            method: "POST", 
            headers: {
@@ -113,12 +119,16 @@
     let name = document.getElementById("SignUp_name").value;
     let email = document.getElementById("SignUp_email").value;
     let password = document.getElementById("SignUp_password").value;
+    let Img=document.getElementById("Image").value;
+    console.log("Image: " +Img)
     let resp = await postData("Auth/signup", {
       name: name,
       email: email,
       password: password,
       role : role,
+      img: Img,
     });
+
     if (resp.success) {
       alert("Success! You have signed up. Redirecting to login...");
       window.location.href = "/start.html";

@@ -6,46 +6,46 @@ const ProductSchema = new Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User', 
   },
-    name: {
-        type: String,
-        required: [true, "ProductName is required"],
-        minlength: [3, 'Too short'],
-        maxlength: [30, 'Too long']
+  name: {
+    type: String,
+    required: [true, "ProductName is required"],
+    minlength: [3, 'Too short'],
+    maxlength: [30, 'Too long']
+  },
+  desc: {
+    type: String,
+    required: [true, "ProductDesc is required"],
+    minlength: [3, 'Too short'],
+    maxlength: [60, 'Too long']
+  },
+  price: {
+    type: Number,
+    required: [true, "Product Price is required"],
+    minlength: [2, 'Too short'],
+    maxlength: [5, 'Too long']
+  },
+  price_Dis: {
+    type: Number,
+    minlength: [3, 'Too short'],
+    maxlength: [30, 'Too long']
+  },
+  ratings: 
+    {
+      type: Number,
+      min: 0,
+      max: 5,
+      required: [true, "Rating is required"],
     },
-    desc:{
-        type: String,
-        unique: false,
-        required: [true, "ProductDesc is required"],
-        minlength: [3, 'Too short'],
-        maxlength: [60, 'Too long']
-    },
-    price: {
-        type: Number,
-        unique: false,
-        required: [true, "Product Price is required"],
-        minlength: [2, 'Too short'],
-        maxlength: [5, 'Too long']
-    },
-    price_Dis: {
-        type: Number,
-        minlength: [3, 'Too short'],
-        maxlength: [30, 'Too long']
-    },
-    img: {
-        type: String,
-        required: true,
-      },
-    //name:String    image{ data: Buffer  contentType: String}
-   category:{
+  
+  img: {
+    type: String,
+    required: true,
+  },
+  category: {
     type: Schema.Types.ObjectId,
-    ref:'Category',
-      required: [true, "product must belong to Category "],
-       },
-      Rating:{
-        type: Number,
-        minlength: [1, 'Too short'],
-        maxlength: [5, 'Too long']
-      }
+    ref: 'Category',
+    required: [true, "Product must belong to Category"],
+  },
 }, { timestamps: true });
 
 const ProductModel = mongoose.model("Product", ProductSchema);

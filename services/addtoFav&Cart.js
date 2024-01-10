@@ -6,17 +6,28 @@ const multer = require('multer');
 const path=require('path');
 //image upload
 
-//"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NTg4OGRiZDBmMzgxM2IxNWQ0Y2IzMzciLCJpYXQiOjE3MDQ0NTk4NDcsImV4cCI6MTczMDM3OTg0N30.W44cGxAq-lhaX3lwZRP3zSH2ZeCsSsZCNmEMSBzrJZc"
-exports.addProduct = asyncHandler(async (req, res) => {
-  console.log('Add Product');
-  console.log(req.body);
-  //const userId = req.headers.authorization.replace('Bearer', '');
-  //console.log("User Id " + userId);
-
+//For users
+//will need Restaurant id, Product id and User id
+// /:UserId/:RestaurantId/:ProductId
+exports.addtoFav = asyncHandler(async (req, res) => {
+  console.log('Add Product ToFav');
+  const{RestId,ProductId,UserId} = req.params;
   const product = await ProductModel.create(req.body);
 
   res.status(200).json({ success: true, data: product });
 });
+//will need Restaurant id, Product id and User id
+// /:UserId/:RestaurantId/:ProductId
+exports.addtoCart = asyncHandler(async (req, res) => {
+    console.log('Add Product to Cart');
+    console.log(req.body);
+    //const userId = req.headers.authorization.replace('Bearer', '');
+    //console.log("User Id " + userId);
+  
+    const product = await ProductModel.create(req.body);
+  
+    res.status(200).json({ success: true, data: product });
+  });
 //des   get All Products
 //route  Get /Products/:user
 //acc    all(public)
@@ -55,7 +66,7 @@ exports.getSpacificProduct=asyncHandler(async(req,res,next)=>{
 
   const { user, id } = req.params;
   const product = await ProductModel.findById(id).populate('category','name').find({ user });
-console.log("Product "+product);
+
   if (!product) {
       res.status(404).json({ msg: `Error There is no Product With this ID ${id}` });
   }
@@ -135,4 +146,3 @@ exports.DeleteSpacificProduct=asyncHandler(async(req,res)=>{
   
     res.status(200).json({ data: updateProduct });
   });
-  
