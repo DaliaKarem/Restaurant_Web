@@ -69,33 +69,26 @@ exports.DeleteSpacificUser=asyncHandler(async(req,res)=>{
 
 
   //Post
-
   exports.RateUserResturant = asyncHandler(async (req, res) => {
     const { id } = req.params; // Restaurant ID
     console.log(`---------Rate Restaurant--------- `);
-  
+
     // Assume rate is sent in the request body, adjust as needed
     const { rate } = req.body;
-  
+
     // Find the Res from the UserModel
     const user = await UserModel.findById(id);
-  
-    if (!user) {
-      return res.status(404).json({ msg: `Error There is no Res With this ID ${id}` });
-    }
-  
-    // Add the new rating to the user's rateRes array
-    user.rateRes.push(rate);
-    console.log("Rate  ",rate);
-    // Calculate the average rating
-    const totalRating = user.rateRes.reduce((sum, userRate) => sum + userRate, 0);
-    const averageRating = totalRating / user.rateRes.length;
-    console.log("num of rate :",user.rateRes.length);
 
-    user.rateRes = averageRating;
-     console.log("Updated ",user);
+    if (!user) {
+        return res.status(404).json({ msg: `Error There is no Res With this ID ${id}` });
+    }
+
+    // Update the user's rateRes with the new rating
+    user.rateRes = (rate+user.rateRes)/2;
+    console.log("Rate  ", rate);
+
+    // Save the updated user
     const updatedUser = await user.save();
-  
+
     res.status(200).json({ data: updatedUser });
-  });
-  
+});

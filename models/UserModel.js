@@ -30,11 +30,11 @@ const UserSchema = new Schema({
         type: 'boolean',
         default: true,
     },
-    rateRes:[{
+    rateRes:{
         type: Number,
         minlength: [0, 'Too short'],
         maxlength: [6, 'Too long']
-    }],
+    },
     img: {
         type: String,
         required: true,

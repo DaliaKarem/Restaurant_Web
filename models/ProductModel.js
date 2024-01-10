@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const ProductSchema = new Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User', 
+  },
   name: {
     type: String,
     required: [true, "ProductName is required"],
@@ -25,14 +29,14 @@ const ProductSchema = new Schema({
     minlength: [3, 'Too short'],
     maxlength: [30, 'Too long']
   },
-  ratings: [
+  ratings: 
     {
       type: Number,
       min: 0,
       max: 5,
       required: [true, "Rating is required"],
     },
-  ],
+  
   img: {
     type: String,
     required: true,
