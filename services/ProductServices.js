@@ -50,7 +50,7 @@ exports.getAllProductsWithSameCate = asyncHandler(async (req, res) => {
 //des   get specific Product
 //route  Get /Products/:user/:id
 //acc    all(public)
-exports.getSpacificProduct=asyncHandler(async(req,res,next)=>{ 
+exports.getSpacificProduct=asyncHandler(async(req,res)=>{ 
   console.log("getSpacificProduct");
 
   const { user, id } = req.params;

@@ -15,7 +15,7 @@ const CategoryRoute=require('./Routes/CategoryRoute');
 const ProductRoute=require('./Routes/ProductRoute');
 const UserRoute=require('./Routes/UserRoute');
 const authorRoute=require('./Routes/authRoute')
-
+const FavoriteRoute=require('./Routes/FavRoute')
 //TODO Doing Fav(add _remove) and Cart(add_remove ) 
 //TODO Edit on Products ->Laterlly
 //TODO Send verification code in Eamil
@@ -37,6 +37,7 @@ app.use("/Category",CategoryRoute)
 app.use("/Products",ProductRoute);
 app.use("/Users",UserRoute);
 app.use("/Auth",authorRoute);
+app.use("/Fav",FavoriteRoute);
 
 //Pages
 app.get('/',(req,res)=>{
