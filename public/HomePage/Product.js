@@ -57,6 +57,7 @@ function createProductHTML(product) {
                   <img src="${product.img}" alt="${product._id}">
                 </div>
                 <div class="product-titl">${product.name}</div>
+                <div class="product-rating">Rating: ${product.ratings !== undefined ? product.ratings : 0}</div>
                 <div class="product-desc">${product.category ? product.category.name : 'No Category'}</div>
                 <div class="product-desc">${product.desc}</div>
                 <div class="product-pri">${product.price}</div>
@@ -65,11 +66,11 @@ function createProductHTML(product) {
         </div>
     `;
 }
-async function productDetails(ID) {
+async function productDetails(userId,ID) {
     console.log(ID);
     console.log(localStorage.getItem('admin'));
     console.log("Product Details");
-    const productsResponse = await fetch(`/Products/${ID}`);
+    const productsResponse = await fetch(`/Products/${userId}/${ID}`);
     const productData = await productsResponse.json();
     const product = productData.data;  // Assuming the product data is in a 'data' property
 

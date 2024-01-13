@@ -15,6 +15,8 @@ const CategoryRoute=require('./Routes/CategoryRoute');
 const ProductRoute=require('./Routes/ProductRoute');
 const UserRoute=require('./Routes/UserRoute');
 const authorRoute=require('./Routes/authRoute')
+const FavoriteRoute=require('./Routes/FavRoute')
+const CartRoute=require('./Routes/CartRoute')
 
 //TODO Doing Fav(add _remove) and Cart(add_remove ) 
 //TODO Edit on Products ->Laterlly
@@ -37,6 +39,8 @@ app.use("/Category",CategoryRoute)
 app.use("/Products",ProductRoute);
 app.use("/Users",UserRoute);
 app.use("/Auth",authorRoute);
+app.use("/Fav",FavoriteRoute);
+app.use("/Cart",CartRoute);
 
 //Pages
 app.get('/',(req,res)=>{
