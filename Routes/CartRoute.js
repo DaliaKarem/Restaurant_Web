@@ -1,8 +1,11 @@
 const express=require('express');
 const {protect}=require('../services/authServices');
-const{addCategory,getAllCategories}=require('../services/CategoryServices');
-const{validateAddCateg}=require('../utils/Validators/CategoryValidator');
+const{addtoCart,getAllCart,DeleteCart}=require('../services/CartServices');
 const router=express.Router()
-router.route("/").post(protect,validateAddCateg,addCategory).get(getAllCategories);
+//Add -> /Fav/:UserId/:RestaurantId/:ProductId
+//Get ->/Fav/:UserId/:RestaurantId
+
+router.route("/:user/:Rest/:nameProduct").post(addtoCart).delete(DeleteCart);
+router.route("/:user/:Restid").get(getAllCart);
 
 module.exports=router;
