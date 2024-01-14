@@ -39,6 +39,11 @@ const UserSchema = new Schema({
         type: String,
         required: true,
       },
+      verificationCode:{
+        type: Number,
+        minlength: [0, 'Too short'],
+        maxlength: [6, 'Too long']
+      }
 },{timestamps: true});
 UserSchema.pre("save",async function(next){
     if(!this.isModified('password')) return next();

@@ -2,6 +2,39 @@ const asyncHandler = require('express-async-handler');
 const UserModel = require('../models/UserModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const nodemail = require('nodemailer');
+
+const generateVerificationCode = () => {
+    return Math.floor(10000 + Math.random() * 90000).toString();
+};
+
+const sendVerificationCode = async (email, code) => {
+    const mailTransporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: process.env.Useremail,
+            pass: process.env.UserPassOfemail,
+        },
+        tls: {
+            rejectUnauthorized: false,
+        },
+    });
+
+    const details = {
+        from: "2019012stud@gmail.com",
+        to: email,
+        subject: "Verification Code for Your App",
+        text: `Your verification code is: ${code}`,
+    };
+
+    try {
+        await mailTransporter.sendMail(details);
+        console.log("Verification code sent successfully");
+    } catch (error) {
+        console.error("Error sending verification code:", error.message);
+    }
+};
+
 
 // POST /auth/Signup
 // public
@@ -10,13 +43,26 @@ exports.signup = asyncHandler(async (req, res) => {
     console.log("Received dataaaaaa :", req.body);
 
     try {
+        // Generate a 5-digit verification code
+        const verificationCode = generateVerificationCode();
+        console.log("Verification Code :", verificationCode);
+        // Send verification code
+        await sendVerificationCode(req.body.email, verificationCode);
+
+        // Assuming you have a field 'verificationCode' in your User model
         const user = await UserModel.create({
             name: req.body.name,
             email: req.body.email,
             password: req.body.password,
             img: req.body.img,
             role: req.body.role || 'user',
+            verificationCode: verificationCode,
         });
+
+        // Add logic to compare the entered verification code with the one sent to the user
+        if (req.body.enteredVerificationCode !== verificationCode) {
+            return res.status(400).json({ success: false, msg: 'Incorrect verification code' });
+        }
 
         const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
             expiresIn: process.env.JWT_Exp,
@@ -30,7 +76,6 @@ exports.signup = asyncHandler(async (req, res) => {
         res.status(500).json({ success: false, msg: 'Internal Server Error' });
     }
 });
-
 // POST /auth/Login
 // public
 exports.login = asyncHandler(async (req, res) => {
