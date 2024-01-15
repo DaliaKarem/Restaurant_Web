@@ -5,7 +5,7 @@ const router=express.Router()
 //Add -> /Fav/:UserId/:RestaurantId/:ProductId
 //Get ->/Fav/:UserId/:RestaurantId
 
-router.route("/:user/:Rest/:nameProduct").post(addtoFav).delete(DeleteFav);
-router.route("/:user/:Restid").get(getAllFav);
+router.route("").post(addtoFav).delete(DeleteFav).get(getAllFav);
+//router.route("/:user/:Restid").get(getAllFav);
 
 module.exports=router;

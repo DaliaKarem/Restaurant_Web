@@ -10,12 +10,12 @@ const CartModel = require('../models/CartModel'); // Import your Fav model
 // /Cart/:UserId/:RestaurantId/:ProductId
 exports.addtoCart = asyncHandler(async (req, res) => {
   console.log('Add Product To Cart');
-  const { Rest, nameProduct, user } = req.params;
+  const { Rest, id, user } = req.query;
 
   // 1. Find the user and product by their IDs
   const foundUser = await UserModel.findById(user);
   const foundRest = await UserModel.findById(Rest);
-  const foundProduct = await ProductModel.findById(nameProduct);
+  const foundProduct = await ProductModel.findById(id);
   console.log("user is " + foundUser + " and product is " + foundProduct + " and Rest is " + foundRest);
 
   if (!foundUser || !foundProduct || !foundRest) {
@@ -53,11 +53,11 @@ exports.addtoCart = asyncHandler(async (req, res) => {
 //Get All Cart
 exports.getAllCart = asyncHandler(async (req, res)=>{
   console.log('Get All Cart for user');
-  const{Restid,user} = req.params;
-  console.log("user : ",user ," Rest : ",Restid)
+  const{Rest,user} = req.query;
+  console.log("user : ",user ," Rest : ",Rest)
   const product = await CartModel.find({
     user: user,
-    Rest: Restid
+    Rest: Rest
   });
   console.log("product: " + product)
    if(!product)
@@ -72,12 +72,12 @@ exports.getAllCart = asyncHandler(async (req, res)=>{
 
 exports.DeleteCart = asyncHandler(async (req, res)=>{
   console.log('Delete this product from  Cart');
-  const { Rest, nameProduct, user } = req.params;
-  console.log("user : ",user ," Rest : ",Rest , " Prodcut : ",nameProduct)
+  const { Rest, id, user } = req.query;
+  console.log("user : ",user ," Rest : ",Rest , " Prodcut : ",id)
   const product = await CartModel.findOneAndDelete({
     user: user,
     Rest: Rest,
-    nameProduct: nameProduct,
+    nameProduct: id,
   });
   console.log("product: " + product)
    if(!product)

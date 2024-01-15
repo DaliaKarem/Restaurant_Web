@@ -5,7 +5,6 @@ const router=express.Router()
 //Add -> /Fav/:UserId/:RestaurantId/:ProductId
 //Get ->/Fav/:UserId/:RestaurantId
 
-router.route("/:user/:Rest/:nameProduct").post(addtoCart).delete(DeleteCart);
-router.route("/:user/:Restid").get(getAllCart);
+router.route("").post(addtoCart).delete(DeleteCart).get(getAllCart);
 
 module.exports=router;
