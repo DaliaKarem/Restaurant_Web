@@ -41,7 +41,7 @@ exports.addtoFav = asyncHandler(async (req, res) => {
     user: foundUser._id,
     Rest: foundRest._id,
     nameProduct: foundProduct._id,
-  });
+  })
 
   console.log('product: ' + newFavorite);
   res.status(200).json({ success: true, data: newFavorite });
@@ -58,7 +58,16 @@ exports.getAllFav = asyncHandler(async (req, res)=>{
   const product = await FavModel.find({
     user: user,
     Rest: Rest
-  });
+  }).populate({
+    path: 'nameProduct',
+    model: 'Product',
+    select: 'name desc img price ratings category', 
+    populate: {
+      path: 'category',
+      model: 'Category', // Assuming the actual name of the Category model
+      select: 'name', // Select the fields you want from the Category model
+    }
+  }).populate('user', 'name email');
   console.log("product: " + product)
    if(!product)
    {

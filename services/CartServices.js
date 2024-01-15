@@ -58,7 +58,16 @@ exports.getAllCart = asyncHandler(async (req, res)=>{
   const product = await CartModel.find({
     user: user,
     Rest: Rest
-  });
+  }).populate({
+    path: 'nameProduct',
+    model: 'Product',
+    select: 'name desc img price ratings category', 
+    populate: {
+      path: 'category',
+      model: 'Category', // Assuming the actual name of the Category model
+      select: 'name', // Select the fields you want from the Category model
+    }
+  }).populate('user', 'name email');;
   console.log("product: " + product)
    if(!product)
    {
