@@ -10,12 +10,12 @@ const FavModel = require('../models/FavModel'); // Import your Fav model
 // /Fav/:UserId/:RestaurantId/:ProductId
 exports.addtoFav = asyncHandler(async (req, res) => {
   console.log('Add Product ToFav');
-  const { Rest, nameProduct, user } = req.params;
+  const { Rest, id, user } = req.query;
 
   // 1. Find the user and product by their IDs
   const foundUser = await UserModel.findById(user);
   const foundRest = await UserModel.findById(Rest);
-  const foundProduct = await ProductModel.findById(nameProduct);
+  const foundProduct = await ProductModel.findById(id);
   console.log("user is " + foundUser + " and product is " + foundProduct + " and Rest is " + foundRest);
 
   if (!foundUser || !foundProduct || !foundRest) {
@@ -24,8 +24,8 @@ exports.addtoFav = asyncHandler(async (req, res) => {
 
   // Check if the product exists in the specified restaurant
   const productExistsInRestaurant = await ProductModel.findOne({
-    _id: foundProduct._id,
-    user: foundRest._id,
+    _id: id,
+    user: Rest,
   });
 
   console.log("Product " + productExistsInRestaurant);
@@ -41,7 +41,7 @@ exports.addtoFav = asyncHandler(async (req, res) => {
     user: foundUser._id,
     Rest: foundRest._id,
     nameProduct: foundProduct._id,
-  });
+  })
 
   console.log('product: ' + newFavorite);
   res.status(200).json({ success: true, data: newFavorite });
@@ -53,12 +53,21 @@ exports.addtoFav = asyncHandler(async (req, res) => {
 //Get All Fav
 exports.getAllFav = asyncHandler(async (req, res)=>{
   console.log('Get All Fav for user');
-  const{Restid,user} = req.params;
-  console.log("user : ",user ," Rest : ",Restid)
+  const{Rest,user} = req.query;
+  console.log("user : ",user ," Rest : ",Rest)
   const product = await FavModel.find({
     user: user,
-    Rest: Restid
-  });
+    Rest: Rest
+  }).populate({
+    path: 'nameProduct',
+    model: 'Product',
+    select: 'name desc img price ratings category', 
+    populate: {
+      path: 'category',
+      model: 'Category', // Assuming the actual name of the Category model
+      select: 'name', // Select the fields you want from the Category model
+    }
+  }).populate('user', 'name email');
   console.log("product: " + product)
    if(!product)
    {
@@ -72,12 +81,12 @@ exports.getAllFav = asyncHandler(async (req, res)=>{
 
 exports.DeleteFav = asyncHandler(async (req, res)=>{
   console.log('Delete this product from  Fav');
-  const { Rest, nameProduct, user } = req.params;
-  console.log("user : ",user ," Rest : ",Rest , " Prodcut : ",nameProduct)
+  const { Rest, id, user } = req.query;
+  console.log("user : ",user ," Rest : ",Rest , " Prodcut : ",id)
   const product = await FavModel.findOneAndDelete({
     user: user,
     Rest: Rest,
-    nameProduct: nameProduct,
+    nameProduct: id,
   });
   console.log("product: " + product)
    if(!product)
